@@ -17,26 +17,85 @@ public class Main {
     }
 
     public static void exercise5() {
-        // TODO: Your code for this exercise goes here
+        System.out.println("A \"quoted\" String is");
+        System.out.println("\'much\' better if you learn");
+        System.out.println("the rules of \"escape sequences.\"");
+        System.out.println("Also, \"\" represents an empty String.");
+        System.out.println("Don\'t forget: use \\\" instead of \" !");
+        System.out.println("\'\' is not the same as \"");
     }
 
     public static void exercise6() {
-        // TODO: Your code for this exercise goes here
+        System.out.println("public class SimpleApp {");
+        System.out.println("    public static void main(String[] args) {");
+        System.out.println("        System.out.println(\"Hello World!\");");
+        System.out.println("    }");
+        System.out.println("}");
+    }
+
+    public static void printlnFunc() {
+        System.out.println("There\'s one thing every coder must understand:");
+        System.out.println("The System.out.println command.\n");
     }
 
     public static void exercise7() {
-        // TODO: Your code for this exercise goes here
+        printlnFunc();
+        printlnFunc();
+    }
+
+    public static void slash() {
+        System.out.println("//////////////////////");
+    }
+
+    public static void backslash() {
+        System.out.println("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
+    }
+
+    public static void victory() {
+        System.out.println("|| Victory is mine! ||");
     }
 
     public static void exercise8() {
-        // TODO: Your code for this exercise goes here
+        slash();
+        victory();
+        backslash();
+        victory();
+        backslash();
+        victory();
+        backslash();
+        victory();
+        backslash();
+        victory();
+        backslash();
+    }
+
+    public static void top() {
+        System.out.println("  _______");
+        System.out.println(" /       \\");
+        System.out.println("/         \\");
+    }
+
+    public static void bottom() {
+        System.out.println("\\         /");
+        System.out.println(" \\_______/");
+    }
+
+    public static void middle() {
+        System.out.println("-\"-\'-\"-\'-\"-");
     }
 
     public static void exercise9() {
-        // TODO: Your code for this exercise goes here
+        top();
+        middle();
+        bottom();
     }
 
     public static void exercise10() {
-        // TODO: Your code for this exercise goes here
+        top();
+        bottom();
+        System.out.println("");
+        middle();
+        top();
+        bottom();
     }
 }

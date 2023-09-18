@@ -22,19 +22,29 @@ public class AppMain {
     //   #================#
     
     public static void main(String[] args) {
-        drawTopBottom();
-        drawMiddle();
-        drawTopBottom();
+        drawTopBottom(4);
+        drawMiddle(4);
+        drawTopBottom(4);
     }
 
-    public static void drawTopBottom() {
-        System.out.println("#==========#");
+    public static void drawTopBottom(int n) {
+        System.out.print("#");
+        int i = 0;
+        while (i < n) {
+            //4n equal signs
+            System.out.print("====");
+            i++;
+        }
+        System.out.print("#\n");
     }
-    public static void drawMiddle() {
-        for (int i = 0; i < 5; ++i) {
-            System.out.print("|");
-            System.out.print("   <..>   ");
-            System.out.println("|");
+    public static void drawMiddle(int n) {
+        System.out.print("|");
+        //2n-2 spaces
+        int i = 0;
+        while (i < n) {
+            //4n equal signs
+            System.out.print("====");
+            i++;
         }
     }
 }
