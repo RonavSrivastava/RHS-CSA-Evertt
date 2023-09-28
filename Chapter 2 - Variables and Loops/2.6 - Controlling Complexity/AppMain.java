@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class AppMain {
     // Desired output (two different examples, depending on what the constant is set to)...
     // SIZE = 3
@@ -22,9 +24,13 @@ public class AppMain {
     //   #================#
     
     public static void main(String[] args) {
-        drawTopBottom(4);
-        drawMiddle(4);
-        drawTopBottom(4);
+        Scanner myInput = new Scanner( System.in );
+        System.out.print( "Enter a number: " );
+        int number = myInput.nextInt();
+        System.out.println("SIZE = " + number);
+        drawTopBottom(number);
+        drawMiddle(number);
+        drawTopBottom(number);
     }
 
     public static void drawTopBottom(int n) {
@@ -38,13 +44,54 @@ public class AppMain {
         System.out.print("#\n");
     }
     public static void drawMiddle(int n) {
+        int line = 1;
+        while (line < n+2) {
+            printLine(line, n);
+            line++;
+            n--;
+        }
+        printLine(line, n);
+        while (line > 0) {
+            printLine(line, n);
+            line--;
+            n++;
+        }
+    }
+    public static void printLine(int lineNum, int n) {
         System.out.print("|");
-        //2n-2 spaces
+
+        int numPeriods = (lineNum*4) - 4;
+        int numSpaces = (n*2) - 2;
+
+        
         int i = 0;
-        while (i < n) {
-            //4n equal signs
-            System.out.print("====");
+        while (i < numSpaces) {
+            //2n-2 spaces
+            System.out.print(" ");
             i++;
         }
+
+
+        System.out.print("<>");
+
+
+        i = 0;
+        while (i < numPeriods) {
+            System.out.print(".");
+            i++;
+        }
+
+
+        System.out.print("<>");
+
+
+        i = 0;
+        while (i < numSpaces) {
+            //2n-2 spaces
+            System.out.print(" ");
+            i++;
+        }
+
+        System.out.print("|\n");
     }
 }

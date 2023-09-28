@@ -12,7 +12,7 @@ public class AppMain {
         /* Update the print code to output the following sequence...
          *      2 7 12 17 22
          */
-        for(int i = 0; i < 5; i++) {
+        for(int i = 2; i < 22; i+=5) {
 	        System.out.print( i + " " );
         }
         System.out.println();
