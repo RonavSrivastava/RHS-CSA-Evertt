@@ -8,7 +8,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 public class AppMain {
-    static final String FRAME_PATH_FORMAT = "anim 1\\frame_%d2.gif";
+    static final String FRAME_PATH_FORMAT = "anim 1\\frame_%d.gif";
 
     /* Challenge Goal
      *  Create the most interesting Ascii Art animation that you can. This must
