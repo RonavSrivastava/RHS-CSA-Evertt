@@ -1,4 +1,3 @@
-
 public class BreakoutChallenge {
     /* Challenge Goal
      *  In this challenge, you are implementing part of a break-out style game.
@@ -6,7 +5,7 @@ public class BreakoutChallenge {
      *  https://en.wikipedia.org/wiki/Breakout_(video_game)
      *  https://www.youtube.com/watch?v=hW7Sg5pXAok 
      * 
-     * The game is partially/mostly implemented for you. You are not writing the game"s simulation code.
+     * The game is partially/mostly implemented for you. You are not writing the game's simulation code.
      *  What you are writing is the graphics (i.e. the display). Everything else is already completed. 
      *  The display should be implemented with ASCII style graphics, print/println...the things you are familiar with. 
      *  You get to pick the display details (like what character is used for the walls, ball, etc). 
@@ -19,7 +18,7 @@ public class BreakoutChallenge {
      **********************************************************************************************
      *  
      * But...if manage to complete this, an additional challenge is to modify the game in some way.
-     *  One possibility is to add support for a "multi-ball" powerup. For this additional challenge, -
+     *  One possibility is to add support for a 'multi-ball' powerup. For this additional challenge, 
      * you can (and should) modify the other files. Be creative, make it fun.
      * 
      */
