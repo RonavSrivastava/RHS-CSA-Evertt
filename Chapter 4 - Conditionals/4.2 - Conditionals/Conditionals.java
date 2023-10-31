@@ -1,5 +1,8 @@
 public class Conditionals {
-    public boolean firstStars(String text) {
+    
+    public Conditionals() {}
+    
+    public boolean minThreeStars(String text) {
         // Returns true under the following conditions (false in all others).
         //  If the string has three or less characters, then all characters must be stars/asterisks.
         //  If the string has more than three characters, then the first three must be stars/asterisks.
@@ -9,7 +12,23 @@ public class Conditionals {
         //  minThreeStars("*-") -> false
         //  minThreeStars("***abc") -> true
         //  minThreeStars("**a*") -> false
-        return false;
+
+        if (text.length() <= 3) {
+            for(int i = 0; i < text.length(); i++) {
+                if (text.charAt(i) != '*') {
+                    return false;
+                }
+            }
+        }
+        else {
+            for(int i = 0; i < 3; i++) {
+                if (text.charAt(i) != '*') {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     public boolean compareDouble(double number, double expected) {
@@ -21,7 +40,12 @@ public class Conditionals {
         //  compareDouble(6.001, 6) -> true
         //  compareDouble(6.011, 6) -> false
         //  compareDouble(-1.1, -1) -> false
-        return false;
+        if ((expected-AppMain.EPSILON) < number && number < (expected+AppMain.EPSILON)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public boolean logicCheck(int x, int y, boolean b) {
@@ -29,11 +53,13 @@ public class Conditionals {
         //  You cannot use any if statements, only a single return statement.
         //  The logic should remain the same.
 
-        if (x > 10) {
-            return true;
-        } else if (x > y) {
-            return b;
-        }
-        return false;
+        // if (x > 10) {
+        //     return true;
+        // } else if (x > y) {
+        //     return b;
+        // }
+        // return false;
+
+        return (x > 10) ? true : (x > y) ? b : false;
     }
 }

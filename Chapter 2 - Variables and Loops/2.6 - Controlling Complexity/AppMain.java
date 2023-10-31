@@ -45,16 +45,17 @@ public class AppMain {
     }
     public static void drawMiddle(int n) {
         int line = 1;
-        while (line < n+2) {
-            printLine(line, n);
+        int newN = n;
+        while (line < n) {
+            printLine(line, newN);
             line++;
-            n--;
+            newN--;
         }
-        printLine(line, n);
+        printLine(line, newN);
         while (line > 0) {
-            printLine(line, n);
+            printLine(line, newN);
             line--;
-            n++;
+            newN++;
         }
     }
     public static void printLine(int lineNum, int n) {

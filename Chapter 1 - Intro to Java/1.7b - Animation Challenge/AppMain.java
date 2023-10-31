@@ -24,7 +24,7 @@ public class AppMain {
         System.out.println("\033[37m"); // WHITE
 
 
-        /*
+        
         FrameBuilding f1 = new FrameBuilding("anim 1\\frame_00.gif");
         FrameBuilding f2 = new FrameBuilding("anim 1\\frame_01.gif");
         FrameBuilding f3 = new FrameBuilding("anim 1\\frame_02.gif");
@@ -55,53 +55,53 @@ public class AppMain {
         FrameBuilding f28 = new FrameBuilding("anim 1\\frame_27.gif");
         FrameBuilding f29 = new FrameBuilding("anim 1\\frame_28.gif");
         FrameBuilding f30 = new FrameBuilding("anim 1\\frame_29.gif");
-        */ 
+        
 
-        LinkedList<FrameBuilding> builders = new LinkedList<>();
-        File curFrameFile;
-        int curFrame = 0;
-        do {
-            builders.add(new FrameBuilding(String.format(FRAME_PATH_FORMAT, curFrame)));
-            curFrame++;
-            curFrameFile = new File(String.format(FRAME_PATH_FORMAT, curFrame));
-        } while (curFrameFile.exists());
+        // LinkedList<FrameBuilding> builders = new LinkedList<>();
+        // File curFrameFile;
+        // int curFrame = 0;
+        // do {
+        //     builders.add(new FrameBuilding(String.format(FRAME_PATH_FORMAT, curFrame)));
+        //     curFrame++;
+        //     curFrameFile = new File(String.format(FRAME_PATH_FORMAT, curFrame));
+        // } while (curFrameFile.exists());
 
         ExecutorService executor = Executors.newFixedThreadPool(5);
 
-        builders.forEach((FrameBuilding builder) -> {
-            executor.submit(builder);
-        });
+        // builders.forEach((FrameBuilding builder) -> {
+        //     executor.submit(builder);
+        // });
 
-        // executor.submit(f1);
-        // executor.submit(f2);
-        // executor.submit(f3);
-        // executor.submit(f4);
-        // executor.submit(f5);
-        // executor.submit(f6);
-        // executor.submit(f7);
-        // executor.submit(f8);
-        // executor.submit(f9);
-        // executor.submit(f10);
-        // executor.submit(f11);
-        // executor.submit(f12);
-        // executor.submit(f13);
-        // executor.submit(f14);
-        // executor.submit(f15);
-        // executor.submit(f16);
-        // executor.submit(f17);
-        // executor.submit(f18);
-        // executor.submit(f19);
-        // executor.submit(f20);
-        // executor.submit(f21);
-        // executor.submit(f22);
-        // executor.submit(f23);
-        // executor.submit(f24);
-        // executor.submit(f25);
-        // executor.submit(f26);
-        // executor.submit(f27);
-        // executor.submit(f28);
-        // executor.submit(f29);
-        // executor.submit(f30);
+        executor.submit(f1);
+        executor.submit(f2);
+        executor.submit(f3);
+        executor.submit(f4);
+        executor.submit(f5);
+        executor.submit(f6);
+        executor.submit(f7);
+        executor.submit(f8);
+        executor.submit(f9);
+        executor.submit(f10);
+        executor.submit(f11);
+        executor.submit(f12);
+        executor.submit(f13);
+        executor.submit(f14);
+        executor.submit(f15);
+        executor.submit(f16);
+        executor.submit(f17);
+        executor.submit(f18);
+        executor.submit(f19);
+        executor.submit(f20);
+        executor.submit(f21);
+        executor.submit(f22);
+        executor.submit(f23);
+        executor.submit(f24);
+        executor.submit(f25);
+        executor.submit(f26);
+        executor.submit(f27);
+        executor.submit(f28);
+        executor.submit(f29);
+        executor.submit(f30);
 
         loadScreen.loadScreen();
         loadScreen.loadScreen();
@@ -109,9 +109,40 @@ public class AppMain {
         shutdownAndAwaitTermination(executor);
 
 
-        builders.forEach((FrameBuilding builder) -> {
-            printAndEnd(builder.curFrame);
-        });
+        // builders.forEach((FrameBuilding builder) -> {
+        //     printAndEnd(builder.curFrame);
+        // });\
+
+        printAndEnd(f1.curFrame);
+        printAndEnd(f2.curFrame);
+        printAndEnd(f3.curFrame);
+        printAndEnd(f4.curFrame);
+        printAndEnd(f5.curFrame);
+        printAndEnd(f6.curFrame);
+        printAndEnd(f7.curFrame);
+        printAndEnd(f8.curFrame);
+        printAndEnd(f9.curFrame);
+        printAndEnd(f10.curFrame);
+        printAndEnd(f11.curFrame);
+        printAndEnd(f12.curFrame);
+        printAndEnd(f13.curFrame);
+        printAndEnd(f14.curFrame);
+        printAndEnd(f15.curFrame);
+        printAndEnd(f16.curFrame);
+        printAndEnd(f17.curFrame);
+        printAndEnd(f18.curFrame);
+        printAndEnd(f19.curFrame);
+        printAndEnd(f20.curFrame);
+        printAndEnd(f21.curFrame);
+        printAndEnd(f22.curFrame);
+        printAndEnd(f23.curFrame);
+        printAndEnd(f24.curFrame);
+        printAndEnd(f25.curFrame);
+        printAndEnd(f26.curFrame);
+        printAndEnd(f27.curFrame);
+        printAndEnd(f28.curFrame);
+        printAndEnd(f29.curFrame);
+        printAndEnd(f30.curFrame);
 
         resetColor();
     }
