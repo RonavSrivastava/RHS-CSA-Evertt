@@ -6,7 +6,9 @@ public class Paddle {
     private final double PADDLE_HEIGHT = 0.15;
 
     private double posX;
+    private double posY = 0;
     private double halfWidth;
+    private double halfHeight;
     private Point prevMousePos;
 
     public Paddle(double posX, double halfWidth) {
@@ -15,7 +17,7 @@ public class Paddle {
     }
 
     public boolean isInGridSquare(int x, int y) {
-        return (y == 0) && ((double)x >= posX - halfWidth) && ((double)x  < posX + halfWidth);
+        return (y == posY) && ((double)x >= posX - halfWidth) && ((double)x  < posX + halfWidth);
     }
 
     // Returns null is no intersection, otherwise the normal vector
@@ -37,9 +39,11 @@ public class Paddle {
         PointerInfo mouse = MouseInfo.getPointerInfo();
         Point mousePos = mouse.getLocation();
         if (prevMousePos != null) {
-            double pixelsToGridUnits = 0.015;
-            double paddleDelta = (double)(mousePos.x - prevMousePos.x) * pixelsToGridUnits;
-            posX = Math.min(Math.max(posX + paddleDelta, halfWidth), Simulation.GRID_WIDTH - halfWidth);
+            double pixelsToGridUnits = 0.05;
+            double paddleDeltax = (double)(mousePos.x - prevMousePos.x) * pixelsToGridUnits;
+            posX = Math.min(Math.max(posX + paddleDeltax, halfWidth), Simulation.GRID_WIDTH - halfWidth);
+            double paddleDeltay = (double)(mousePos.y - prevMousePos.y) * pixelsToGridUnits;
+            posY = Math.min(Math.max(posX + paddleDeltay, halfHeight), Simulation.GRID_HEIGHT - halfWidth);
         }
         prevMousePos = mousePos;
     }

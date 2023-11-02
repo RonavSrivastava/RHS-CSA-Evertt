@@ -20,8 +20,18 @@ public class TankAI extends TankAIBase {
     //  teacher if you are not sure. If it feels like cheating, it probably is.
 
     public boolean updateAI() {
-
         // TODO: Your code goes here
+        Vec2 pos = getTankPos();
+        Vec2 dir = getTankDir();
+        double ang = getTankAngle();
+	    double speed = getTankMoveSpeed();
+	    double turnSpeed = getTankTurnSpeed();
+	    double shotRange = getTankShotRange();
+        double shotSpeed = getTankShotSpeed();
+        double lvlTimeLeft = getLevelTimeRemaining();
+        double lvlTimeMax = getLevelTimeMax();
+
+        
 
         return true;
     }

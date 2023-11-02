@@ -13,12 +13,12 @@
  *  isBrickInGridSquare  - To check if there is a brick in a grid square.
  */
 public class Simulation {
-    public static final int GRID_WIDTH = 24;
-    public static final int GRID_HEIGHT = 12;
+    public static final int GRID_WIDTH = 50;
+    public static final int GRID_HEIGHT = 30;
     public static final int BRICK_ROWS = 3;
 
-    public static final double INITIAL_BALL_VELOCITY = 6;
-    public static final double PADDLE_WIDTH = 3;
+    public static final double INITIAL_BALL_VELOCITY = 20;
+    public static final double PADDLE_WIDTH = 5;
 
     public static final double EPSILON = 0.00001;
 
@@ -26,6 +26,9 @@ public class Simulation {
     private Ball ball2 = null;
     private Paddle paddle = null;
     private boolean[][] bricks = null;
+
+    private int bricksLeft = 65;
+    private boolean ball2In = false;
 
     public Simulation() {
         // Create up ball & paddle
@@ -44,7 +47,7 @@ public class Simulation {
 
     public boolean isGameActive() {
         // Done when ball is out of bounds
-        if (getBrickCount() < 20) {
+        if (getBrickCount() < bricksLeft) {
             if (ball.isOutsidePlayfield() || ball2.isOutsidePlayfield()) {
                 return false;
             }
@@ -60,11 +63,21 @@ public class Simulation {
     }
 
     public boolean isBallInGridSquare(int x, int y) {
-        if (ball.isInGridSquare(x, y, this) || ball2.isInGridSquare(x, y, this)) {
-            return true;
+        if (getBrickCount() < bricksLeft) {
+            if (ball.isInGridSquare(x, y, this) || ball2.isInGridSquare(x, y, this)) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
         else {
-            return false;
+            if (ball.isInGridSquare(x, y, this)) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
     }
 
@@ -111,9 +124,12 @@ public class Simulation {
 
     private void update(double deltaTime) {
         ball.update(deltaTime, this, paddle);
-        if (getBrickCount() < 20) {
+        if (getBrickCount() < bricksLeft && ball2In == false) {
             Vec2 ballVel2 = Vec2.rotate(new Vec2(0, INITIAL_BALL_VELOCITY), ((Math.random() - 0.5) * 2) * 60);
             ball2 = new Ball(new Vec2(GRID_WIDTH / 2, 2), ballVel2);
+            ball2In = true;
+        }
+        if (getBrickCount() < bricksLeft) {
             ball2.update(deltaTime, this, paddle);
         }
         paddle.update(deltaTime);
