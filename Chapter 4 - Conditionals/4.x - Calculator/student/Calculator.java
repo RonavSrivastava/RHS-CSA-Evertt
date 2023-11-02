@@ -12,12 +12,17 @@ public class Calculator {
      * @param buttonName The name of the button that was clicked. This should always match one String from the {@link Buttons} class in Buttons.java.
      */
     public static void handleButtonClick(String buttonName){
-        if (buttonName.equals(Buttons.ONE)) {
-            //TODO Any conditions to check for when '1' is clicked? Any other things you should update?
-            //Use statically imported methods from the EngineAPI.java file:
-            appendDigitToEntry('1');
+        boolean donePrint = false;
+        try {
+            appendDigitToEntry(buttonName);
+            donePrint = true;
+        }
+        finally {
             setEntryIncomplete(true);
-            setWasPreviousButtonEquals(false);
+            if (buttonName == "+") {
+                System.out.print("+");
+                appendDigitToEntry("+");
+            }
         }
         //TODO Handle as many buttons as possible! See the list of Buttons constants in the Buttons.java class.
         //Whenever you find yourself repeating code, you may want to create other static methods in this class to help!

@@ -22,8 +22,7 @@ public class AppMain {
     // Example: { 1, 2, 3, 4 } -> 1, 2, 3, 4
     // Example: { -1, 5, 0 } -> -1, 5, 0
     public static String arrayToString(int[] array) {
-        // ...
-        return "<TODO>";
+        return array.toString();
     }
 
     // Create an int array of size elementCount. 
