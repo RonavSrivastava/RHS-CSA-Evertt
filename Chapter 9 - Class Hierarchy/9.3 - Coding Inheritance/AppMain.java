@@ -76,4 +76,18 @@ public class AppMain {
     //   Ultimate champion: Tanglethorn(Accurate)!!!
 
     // Your code goes here...
+    public static void main(String[] args) {
+        //ALL NAMES MUST BE THE SAME LENGTH AND AN ODD AMOUNT OF CHARACTERS
+        Creature c1 = new AccurateCreature("RonA1");
+        Creature c2 = new StrongCreature("RonS2");
+        Creature c3 = new FastCreature("RonF3");
+        Creature c4 = new AccurateCreature("RonA4");
+        Creature c5 = new StrongCreature("IanS5");
+        Creature c6 = new FastCreature("IanF6");
+        Creature c7 = new AccurateCreature("IanA7");
+        Creature c8 = new StrongCreature("IanS8");
+        Creature[] creatures = {c1, c2, c3, c4, c5, c6, c7, c8};
+        Arena arena = new Arena(creatures);
+        arena.run();
+    }
 }

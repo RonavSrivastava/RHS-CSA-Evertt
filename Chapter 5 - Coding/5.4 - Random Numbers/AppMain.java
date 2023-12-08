@@ -30,7 +30,7 @@ public class AppMain {
     public static void main(String[] args) {
         for(int i = 0; i < 1; i++) { //if needed then run it many times for debugging purposes
             int sides = dieNum(); //very important, if we put dieNum instead of sides below, it would rerandomize the die every time
-            int times = 1000000;
+            int times = 10000000;
             double[] results = rollDieStats(sides, times); //same goes here, we save off the results so it doesnt get rerandomized every time
             //print out results
             System.out.print(times + " d" + sides);

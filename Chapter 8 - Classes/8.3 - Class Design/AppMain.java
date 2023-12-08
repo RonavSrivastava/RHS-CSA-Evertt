@@ -22,4 +22,24 @@ public class AppMain {
     //  Series Sum (5 terms): 25
 
     // Your code goes here...
+    public static void main(String[] args) {
+        Sequence sequence1 = new Sequence(3, 1);
+        int num = 5;
+        System.out.println("Sequence: " + sequence1.toString(num));
+        System.out.println("Series Sum (" + num + " terms): " + sequence1.sum(num));
+
+        System.out.println();
+
+        Sequence sequence2 = new Sequence(12, -2);
+        num = 3;
+        System.out.println("Sequence: " + sequence2.toString(num));
+        System.out.println("Series Sum (" + num + " terms): " + sequence2.sum(num));
+
+        System.out.println();
+
+        Sequence sequence3 = new Sequence(12, num);
+        num = 4;
+        System.out.println("Sequence: " + sequence3.toString());
+        System.out.println("Series Sum (" + num + " terms): " + sequence3.sum(num));
+    }
 }

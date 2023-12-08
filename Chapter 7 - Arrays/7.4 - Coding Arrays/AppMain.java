@@ -47,7 +47,10 @@ public class AppMain {
         //Duck[] ducks = { new MotherDuck(), new Duck(), new Duck(), new Duck(), new Duck(), new Duck(), new Duck(), null, null, null, null, null };
         //Duck[] ducks = { new Duck(), new Duck(), null, null, null, null, null, null, null, null, new MotherDuck(), new Duck() };
 
-        // TODO
+        for(int i = 0; i < UPDATE_LOOPS; i++) {
+            System.out.print(renderDucksToString(ducks));
+            updateDucks(ducks);
+        }
     }
 
     // Shifts all ducks to the left by one.
