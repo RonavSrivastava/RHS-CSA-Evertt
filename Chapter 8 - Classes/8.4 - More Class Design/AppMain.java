@@ -30,5 +30,18 @@ public class AppMain {
      *     lineB.printIntercept(lineC);
      */
 
-     // TODO
+    public static void main(String[] args) {
+        Line lineA = new Line(2, 5);
+        Line lineB = new Line(-0.5, -10);
+        Line lineC = new Line(0, 1, 10, -5);
+        System.out.println(lineA.toString());
+        System.out.println(lineB.toString());
+        System.out.println(lineC.toString());
+        System.out.print("A & B: ");
+        System.out.println(lineA.getIntersection(lineB)[0] + ", " + lineA.getIntersection(lineB)[1]);
+        System.out.print("A & C: ");
+        System.out.println(lineA.getIntersection(lineC)[0] + ", " + lineA.getIntersection(lineC)[1]);
+        System.out.print("B & C: ");
+        System.out.println(lineB.getIntersection(lineC)[0] + ", " + lineB.getIntersection(lineC)[1]);
+    }
 }

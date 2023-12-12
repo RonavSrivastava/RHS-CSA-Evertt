@@ -14,6 +14,7 @@ public class Arena {
 
     public Creature match(Creature c1, Creature c2) {
         System.out.print("Dueling: " + c1.name + " vs " + c2.name + "!");
+        System.out.println();
         if (!skip) {
             if (scan.nextLine().equals("skip")) {
                 skip = true;
@@ -25,6 +26,7 @@ public class Arena {
         while(true) {
             c1.attack(c2);
             System.out.print(c1.name + " has " + c1.curHealth + " health, " + c2.name + " has " + c2.curHealth + " health");
+            System.out.println();
             if (!skip) {
                 if (scan.nextLine().equals("skip")) {
                     skip = true;
@@ -39,6 +41,7 @@ public class Arena {
             }
             c2.attack(c1);
             System.out.print(c1.name + " has " + c1.curHealth + " health, " + c2.name + " has " + c2.curHealth + " health");
+            System.out.println();
             if (!skip) {
                 if (scan.nextLine().equals("skip")) {
                     skip = true;
@@ -70,14 +73,22 @@ public class Arena {
     public void run() {
         printBracket();
         this.creatures2[0] = match(this.creatures[0], this.creatures[1]);
+        winner = null;
+        printBracket();
         this.creatures2[1] = match(this.creatures[2], this.creatures[3]);
+        winner = null;
+        printBracket();
         this.creatures2[2] = match(this.creatures[4], this.creatures[5]);
+        winner = null;
+        printBracket();
         this.creatures2[3] = match(this.creatures[6], this.creatures[7]);
         skip = false;
         winner = null;
         printBracket();
 
         this.creatures3[0] = match(this.creatures2[0], this.creatures2[1]);
+        winner = null;
+        printBracket();
         this.creatures3[1] = match(this.creatures2[2], this.creatures2[3]);
         skip = false;
         winner = null;
@@ -85,6 +96,7 @@ public class Arena {
 
         Creature winner = match(this.creatures3[0], this.creatures3[1]);
         printBracket();
+        System.out.println();
         System.out.println(winner.name + " wins");
         scan.close();
     }

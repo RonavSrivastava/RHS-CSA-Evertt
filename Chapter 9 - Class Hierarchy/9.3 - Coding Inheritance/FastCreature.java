@@ -18,6 +18,7 @@ public class FastCreature extends Creature {
         else {
             System.out.println(this.name + " missed their attack");
         }
+        other.takeDmg(dmg);
         dmg = this.attack();
         if(dmg > 0) {
             System.out.println(this.name + " hit " + other.name + " for " + dmg + " damage");

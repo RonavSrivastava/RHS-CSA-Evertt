@@ -6,13 +6,12 @@ public class AccurateCreature extends Creature {
 
     public int attack() {
         int totalDmg = 0;
-        boolean attack = chance(80);
-        if(chance(20) && attack) {
+        boolean attack = chance(chance);
+        if (attack) {
             totalDmg += this.curStrength;
-            this.curStrength *= 2;
         }
-        else if (attack) {
-            totalDmg += this.curStrength;
+        if(chance(20) && attack && totalDmg > 0) {
+            this.curStrength *= 2;
         }
         return totalDmg;
     }
@@ -20,5 +19,5 @@ public class AccurateCreature extends Creature {
     public void reset() {
         this.curHealth = this.health;
         this.curStrength = strength;
-    }    
+    }
 }
