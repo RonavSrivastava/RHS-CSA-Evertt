@@ -84,7 +84,7 @@ public class AppMain {
 
     // Your code goes here...
     public static void main(String[] args) {
-        //ALL NAMES MUST BE THE SAME LENGTH AND AN ODD AMOUNT OF CHARACTERS
+        //ALL NAMES MUST BE THE SAME LENGTH AND AN ODD AMOUNT OF CHARACTERS (for printing out the bracket)
         Creature c1 = new AccurateCreature("RonavA1");
         Creature c2 = new StrongCreature("SomIyS2");
         Creature c3 = new FastCreature("IanJiF3");
@@ -94,9 +94,12 @@ public class AppMain {
         Creature c7 = new StrongCreature("AliMaS7");
         Creature c8 = new FastCreature("RonavF8");
         Creature[] creatures = {c1, c2, c3, c4, c5, c6, c7, c8};
+
+        //randomizes the array of creatures
         List<Creature> list = Arrays.asList(creatures);
         Collections.shuffle(list);
         list.toArray(creatures);
+
         Arena arena = new Arena(creatures);
         arena.run();
     }

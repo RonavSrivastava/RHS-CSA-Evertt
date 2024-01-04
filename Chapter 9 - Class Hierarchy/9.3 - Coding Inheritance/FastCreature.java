@@ -1,15 +1,16 @@
 public class FastCreature extends Creature {
     
+    /**
+     * creates the creature with its specific stats
+     * @param name - the name of the creature
+     */
     public FastCreature(String name) {
         this.setStats(name, 15, 50);
     }
 
-    public int attack() {
-        int totalDmg = 0;
-        totalDmg += chance(50) ? this.strength : 0;
-        return totalDmg;
-    }
-
+    /**
+     * overwrite the parent attack function to attack twice per turn
+     */
     public void attack(Creature other) {
         int dmg = this.attack();
         if(dmg > 0) {

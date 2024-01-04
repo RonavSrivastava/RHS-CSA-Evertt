@@ -1,10 +1,19 @@
 public class AccurateCreature extends Creature {
+    private int curStrength;
 
+    /**
+     * creates the creature with its specific stats
+     * @param name - the name of the creature
+     */
     public AccurateCreature(String name) {
         this.setStats(name, 15, 80);
+        this.curStrength = this.strength;
     }
 
-    public int attack() {
+    /**
+     * overwrite the parent attack method to add the special strength feature of this creature
+     */
+    protected int attack() {
         int totalDmg = 0;
         boolean attack = chance(chance);
         if (attack) {
@@ -16,8 +25,11 @@ public class AccurateCreature extends Creature {
         return totalDmg;
     }
 
+    /**
+     * reset both health and strength after each match
+     */
     public void reset() {
         this.curHealth = this.health;
-        this.curStrength = strength;
+        this.curStrength = this.strength;
     }
 }
