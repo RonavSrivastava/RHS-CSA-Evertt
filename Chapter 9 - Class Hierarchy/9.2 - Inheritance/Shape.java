@@ -13,6 +13,7 @@ public class Shape {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -22,6 +23,7 @@ public class Shape {
         // To be implemented in subclasses
         return -1;
     }
+
     public double calcPerimeter() {
         // To be implemented in subclasses
         return -1;
@@ -29,8 +31,8 @@ public class Shape {
 
     // toString
     public String toString() {
-        return name + "(" + color + "): " + 
-                    "area = " + String.format("%.1f", calcArea()) + 
-                    ", perim = " + String.format("%.1f", calcPerimeter());
+        return name + "(" + color + "): " +
+                "area = " + String.format("%.1f", calcArea()) +
+                ", perim = " + String.format("%.1f", calcPerimeter());
     }
 }
