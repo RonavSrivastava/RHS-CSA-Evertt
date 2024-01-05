@@ -5,6 +5,7 @@ public class Arena {
     Creature[] creatures2 = {null, null, null, null};
     Creature[] creatures3 = {null, null};
     Scanner scan = new Scanner(System.in);
+    //whether or not the user has skipped this round
     boolean skip = false;
     Creature winner = null;
 
@@ -56,6 +57,7 @@ public class Arena {
      * creates and runs the matches
      */
     public void run() {
+        //qfs
         printBracket();
         this.creatures2[0] = oneMatch(this.creatures[0], this.creatures[1]);
         winner = null;
@@ -71,6 +73,7 @@ public class Arena {
         winner = null;
         printBracket();
 
+        //sfs
         this.creatures3[0] = oneMatch(this.creatures2[0], this.creatures2[1]);
         winner = null;
         printBracket();
@@ -79,12 +82,19 @@ public class Arena {
         winner = null;
         printBracket();
 
+        //final
         Creature winner = oneMatch(this.creatures3[0], this.creatures3[1]);
         printBracket();
         System.out.println();
-        System.out.println(winner.name + " wins");
+        System.out.println(winner.name + " wins the entire thing wow");
         scan.close();
     }
+
+
+
+
+
+    //everything below here is used to print out the bracket
 
     /**
      * prints out the current bracket, with ? for spots that haven't been decided yet
@@ -99,6 +109,8 @@ public class Arena {
         String n6 = creatures[5].name;
         String n7 = creatures[6].name;
         String n8 = creatures[7].name;
+
+        //for the other ones, if they return null, meaning this spot isnt decided yet. replace it with question marks
         String n11;
         try {
             n11 = creatures2[0].name;
@@ -176,6 +188,7 @@ public class Arena {
         // System.out.println("|---- " + n12 + "       " + w + "       " + n14 + " ----|");
         // System.out.println(n4 + "                           " + n8);
 
+        //each of these blocks of code is one line of the bracket
         System.out.print(n1);
         for(int i = 0; i < (4*(len) + 23); i++) {
             System.out.print(" ");
@@ -282,7 +295,7 @@ public class Arena {
     }
 
     /**
-     * checks user input, unless the user has typed "skip" at some point, used to step through the battles line by line
+     * checks user input, unless the user has typed "skip" at some point. used to step through the battles line by line
      */
     private void checkSkip() {
         if (!skip) {

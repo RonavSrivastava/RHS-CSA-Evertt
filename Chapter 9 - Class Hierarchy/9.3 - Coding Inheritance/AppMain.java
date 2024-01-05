@@ -85,21 +85,26 @@ public class AppMain {
     // Your code goes here...
     public static void main(String[] args) {
         //ALL NAMES MUST BE THE SAME LENGTH AND AN ODD AMOUNT OF CHARACTERS (for printing out the bracket)
-        Creature c1 = new AccurateCreature("RonavA1");
-        Creature c2 = new StrongCreature("SomIyS2");
-        Creature c3 = new FastCreature("IanJiF3");
-        Creature c4 = new FastCreature("KirkCF4");
-        Creature c5 = new AccurateCreature("DhruvA5");
-        Creature c6 = new FastCreature("AlexLF6");
-        Creature c7 = new StrongCreature("AliMaS7");
-        Creature c8 = new FastCreature("RonavF8");
+        Creature c1 = new AccurateCreature("Person1");
+        Creature c2 = new StrongCreature("Person2");
+        Creature c3 = new FastCreature("Person3");
+        Creature c4 = new FastCreature("Person4");
+        Creature c5 = new AccurateCreature("Person5");
+        Creature c6 = new FastCreature("Person6");
+        Creature c7 = new StrongCreature("Person7");
+        Creature c8 = new FastCreature("Person8");
         Creature[] creatures = {c1, c2, c3, c4, c5, c6, c7, c8};
+
+        System.out.println();
+        System.out.println("type \"skip\" to skip the current round (ex. skip qfs, sfs, or final)");
+        System.out.println();
 
         //randomizes the array of creatures
         List<Creature> list = Arrays.asList(creatures);
         Collections.shuffle(list);
         list.toArray(creatures);
 
+        //init arena and run
         Arena arena = new Arena(creatures);
         arena.run();
     }

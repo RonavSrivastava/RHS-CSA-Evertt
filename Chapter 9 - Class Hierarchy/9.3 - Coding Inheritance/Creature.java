@@ -58,7 +58,7 @@ public class Creature {
     }
 
     /**
-     * returns true if this creature is dead
+     * checks if this creature is dead
      * @return true if dead, false if not
      */
     public boolean isDead() {

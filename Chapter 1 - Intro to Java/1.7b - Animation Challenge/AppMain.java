@@ -167,7 +167,7 @@ public class AppMain {
      *  If you call endFrame(100), you control the delay time (this example is 100ms).
      */
     public static void endFrame() {
-        endFrame(150);
+        endFrame(100);
     }
     public static void endFrame(int delayMilliSeconds) {  
         // Delay a for a short time (leave it on the screen)
