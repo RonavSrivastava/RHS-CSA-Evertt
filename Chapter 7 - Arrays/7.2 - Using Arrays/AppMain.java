@@ -35,8 +35,8 @@ public class AppMain {
     // Example: createIntArray(5, 2) -> { 2, 2, 2, 2, 2 }
     public static int[] createIntArray(int elementCount, int defaultValue) {
         int[] arr = new int[elementCount];
-        for (int j = 0; j < arr.length; j++) { //loop through each element and set it to the default value
-            arr[j] = defaultValue;
+        for (int element = 0; element < arr.length; element++) { //loop through each element and set it to the default value
+            arr[element] = defaultValue;
         }
         return arr;
     }
@@ -47,7 +47,7 @@ public class AppMain {
     // Example: { 5, 5, 5 } -> 2
     public static int countAdjacentMatches(int[] list) {
         int count = 0;
-        for(int i = 0; i < list.length-1; i++) { //lop through every element (except the last one)
+        for(int i = 0; i < list.length-1; i++) { //loop through every element (except the last one)
             if(list[i] == list[i+1]) { //check if the two adjacent pairs are equal
                 count++;
             }

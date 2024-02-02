@@ -43,20 +43,24 @@ public class AppMain {
 
     public static void main(String[] args) {
         // Test cases (remove comments to swap test cases)...
-        Duck[] ducks = { null, null, null, null, null, new MotherDuck(), new Duck(), new Duck(), new Duck(), null, null };
-        //Duck[] ducks = { new MotherDuck(), new Duck(), new Duck(), new Duck(), new Duck(), new Duck(), new Duck(), null, null, null, null, null };
-        //Duck[] ducks = { new Duck(), new Duck(), null, null, null, null, null, null, null, null, new MotherDuck(), new Duck() };
-
-        for(int i = 0; i < UPDATE_LOOPS; i++) {
-            System.out.print(renderDucksToString(ducks));
-            updateDucks(ducks);
-        }
+        // Duck[] ducks = { null, null, null, null, null, new MotherDuck(), new Duck(), new Duck(), new Duck(), null, null };
+        Duck[] ducks = { new MotherDuck(), new Duck(), new Duck(), new Duck(), new Duck(), new Duck(), new Duck(), null, null, null, null, null };
+        // Duck[] ducks = { new Duck(), new Duck(), null, null, null, null, null, null, null, null, new MotherDuck(), new Duck() };
+        System.out.println(ducks[0].name);
+        // for(int i = 0; i < UPDATE_LOOPS; i++) {
+        //     System.out.print(renderDucksToString(ducks));
+        //     updateDucks(ducks);
+        // }
     }
 
     // Shifts all ducks to the left by one.
     //  It wraps around to right side when leaving left side.
     public static void updateDucks(Duck[] ducks) {
-        // TODO
+        Duck temp = ducks[0];
+        for(int i = 0; i < ducks.length-1; i++) {
+            ducks[i] = ducks[i + 1];
+        }
+        ducks[ducks.length-1] = temp;
     }
 
     // Draw the ducks from left to right (BTW - Render is just another way of saying draw).
@@ -67,5 +71,15 @@ public class AppMain {
     //
     public static String renderDucksToString(Duck[] ducks) {
         // TODO
+        String output = "";
+        for(int i = 0; i < ducks.length; i++) {
+            try {
+                output += ducks[i].name;
+            }
+            catch (NullPointerException e) {
+                output += " ";
+            }
+        }
+        return output + "\n";
     }
 }

@@ -2,17 +2,15 @@ public class AppMain {
     public static void main(String[] args) {
 
         System.out.println("-------- toArrayList --------");
-        // TODO: add your test cases here
         System.out.println(Practice.toArrayList(new String[] {"a", "b", "c"}));
 
         System.out.println("\n-------- reverseList --------");
-        // TODO: add your test cases here
         System.out.println(Practice.reverseList(new String[] {"a", "b", "c"}));
 
         System.out.println("\n-------- splitString --------");
-        // TODO: add your test cases here
+        System.out.println(Practice.splitString("This is a test    "));
 
         System.out.println("\n-------- justPrimes --------");
-        // TODO: add your test cases here
+        System.out.println(Practice.justPrimes(new Integer[] { 1, 3, 4, 7, 8, 11 }));
     }
 }

@@ -58,6 +58,15 @@ public class AppMain {
     //   You win!!!
 
     public static void main(String[] args) {
-        // TODO
+        Board board = new Board();
+        HumanPlayer user = new HumanPlayer("X");
+        AIPlayer ai = new AIPlayer("O");
+        while(board.calcWinner() == 0) {
+            board.placeMark(user.getNextMove(board));
+            System.out.print(board.draw());
+            System.out.print("AI move:");
+            board.placeMark(ai.getNextMove(board));
+            System.out.print(board.draw());
+        }
     }
 }

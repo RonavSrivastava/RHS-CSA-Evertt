@@ -6,7 +6,6 @@ public class Practice {
      * Example...
      *  input: { "a", "b", "c" }, output: [ a, b, c ]
      */ 
-    // TODO: write the method toArrayList
     public static ArrayList<String> toArrayList(String[] input) {
         ArrayList<String> output = new ArrayList<String>();
         for(int i = 0; i < input.length; i++) {
@@ -21,7 +20,6 @@ public class Practice {
      * Example...
      *  input: { "a", "b", "c" }, output: [ c, b, a ]
      */ 
-    // TODO: write the method reverseList
     public static ArrayList<String> reverseList(String[] input) {
         ArrayList<String> output = new ArrayList<String>();
         for(int i = input.length-1; i >= 0; i--) {
@@ -39,13 +37,56 @@ public class Practice {
      *  input: "This is a test", output: [ this, is, a, test ]
      *  input: "Hi. What, is your name?", output: [ Hi, What, is, your, name ]
      */ 
-    // TODO: write the method splitString
     public static ArrayList<String> splitString(String input) {
+        //this is overly complicated but it works
         ArrayList<String> output = new ArrayList<String>();
+        String input2 = "";
+
+        //remove all symbols
         for(int i = 0; i < input.length(); i++) {
-            
+            if (Character.isLetter(input.charAt(i)) || (input.charAt(i) == ' ')) {
+                input2 += input.charAt(i);
+            }
         }
-        return output;
+
+        //remove doubled up spaces because the output would have a string with only a space
+        // String input3 = "";
+        // for(int i = 0; i < input2.length()-1; i++) {
+        //     if ((input2.charAt(i) == ' ' && input2.charAt(i+1) == ' ')) {
+        //         input3 += input2.charAt(i);
+        //         i++;
+        //     } else {
+        //         input3 += input2.charAt(i);
+        //     }
+        // }
+        // input3 += input2.charAt(input2.length()-1);
+
+        String input3 = "";
+        for(int i = 0; i < input2.length(); i++) {
+            if (input2.charAt(i) == ' ') {
+                input3 += input2.charAt(i);
+                while(input2.charAt(i) == ' ') {
+                    i++;
+                }
+                input3 += input2.charAt(i);
+            } else {
+                input3 += input2.charAt(i);
+            }
+        }
+
+        
+        int start = 0;
+        int end = 0;
+        while(true) {
+            end = input3.indexOf(" ", start+1);
+            if (end == -1) {
+                //if it fails to find another space, grab the rest of the string then return
+                output.add(input3.substring(start, input3.length()));
+                return output;
+            }
+            output.add(input3.substring(start, end));
+            start = end;
+        }
     }
 
     /* Write a method called justPrimes that takes an Array of integer types
@@ -54,4 +95,22 @@ public class Practice {
      *  input: { 1, 3, 4, 7, 8, 11 }, output: [ 1, 3, 7, 11 ]
      */ 
     // TODO: write the method justPrimes
+    public static ArrayList<String> justPrimes(Integer[] input) {
+        ArrayList<String> output = new ArrayList<String>();
+        for(int i = 0; i < input.length; i++) {
+            if (isPrime(input[i])) {
+                output.add(Integer.toString(input[i]));
+            }
+        }
+        return output;
+    }
+
+    private static boolean isPrime(int num) {
+        for(int i = 2; i < num; i++) {
+            if(num%i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
