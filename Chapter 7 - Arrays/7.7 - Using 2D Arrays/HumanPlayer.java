@@ -1,27 +1,20 @@
 import java.util.Scanner;
 
-public class HumanPlayer extends Player{
-    public HumanPlayer(String m) {
-        super(m);
-    }
-
+public class HumanPlayer extends Player {
+    public static final String marker = "X";
+    Scanner scanner = new Scanner(System.in);
+    
     public Move getNextMove(Board board) {
-        Scanner scan = new Scanner(System.in);
-        String[] options = board.getEmptySpaces();
-        String moveStr = null;
-        while(moveStr == null) {
-            System.out.print("Your move: ");
-            moveStr = scan.next();
-            for(String i : options) {
-                if (i != null && i.equals(moveStr)) {
-                    scan.close();
-                    return Move.StringToMove(moveStr, mark);
-                }
+        // User input
+        Move move = null;
+        while (move == null) {
+            System.out.print("Your move (e.g. '0,2')? ");
+            String input = scanner.nextLine();  // Read user input
+            move = Move.StringToMove(input, marker);
+            if ((move == null) || !board.isEmpty(move.r, move.c)) {
+                move = null;
             }
-            System.out.println("Not a valid move, try again");
-            moveStr = null;
         }
-        scan.close();
-        return null;
+        return move;   
     }
 }

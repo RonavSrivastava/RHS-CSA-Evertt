@@ -1,3 +1,11 @@
 public class Duck {
-    public String name = "d";
+    public String name;
+
+    public Duck() {
+        name = "d";
+    }
+    
+    public String toString() {
+        return this.name;
+    }
 }

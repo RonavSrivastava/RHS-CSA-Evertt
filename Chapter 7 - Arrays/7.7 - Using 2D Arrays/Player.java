@@ -1,7 +1,7 @@
 public class Player {
-    protected String mark;
-
-    public Player(String mark) {
-        this.mark = mark;
+    public Player() {
+    }
+    public Move getNextMove(Board board) {
+        return null;
     }
 }
