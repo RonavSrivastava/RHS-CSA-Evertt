@@ -25,7 +25,7 @@ public class Board {
         board = output;
     }
 
-    //acessor to the board array, used for AI
+    //accessor to the board array, used for AI
     public String[][] getBoard() {
         return board;
     }
