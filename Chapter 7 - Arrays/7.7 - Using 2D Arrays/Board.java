@@ -14,6 +14,7 @@ public class Board {
         reset();
     }
 
+    //copies another board, used for AI test cases
     public Board(Board b) {
         String[][] output = new String[b.getBoard().length][b.getBoard()[0].length];
         for(int arr = 0; arr < b.getBoard().length; arr++) {
@@ -24,6 +25,7 @@ public class Board {
         board = output;
     }
 
+    //acessor to the board array, used for AI
     public String[][] getBoard() {
         return board;
     }
