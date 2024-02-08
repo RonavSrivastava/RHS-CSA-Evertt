@@ -14,6 +14,20 @@ public class Board {
         reset();
     }
 
+    public Board(Board b) {
+        String[][] output = new String[b.getBoard().length][b.getBoard()[0].length];
+        for(int arr = 0; arr < b.getBoard().length; arr++) {
+            for(int i = 0; i < b.getBoard()[arr].length; i++) {
+                output[arr][i] = b.getBoard()[arr][i];
+            }
+        }
+        board = output;
+    }
+
+    public String[][] getBoard() {
+        return board;
+    }
+
     // Reset board so that each element is a an empty string (use Board.empty)
     //  postcondition: board is a 3x3 array. all elements are Board.empty.
     public void reset() {
@@ -89,24 +103,27 @@ public class Board {
     //  Note that in the case that no one has won, it returns 0.
     //  Returns: 0:none, 1:human(HumanPlayer.marker), 2:AI(AiPlayer.marker)
     public int calcWinner() {
-        for(String arr[] : board) {
-            if(arr[0].equals(arr[1]) && arr[0].equals(arr[2])) {
-                return arr[0].equals(Board.empty) ? 0 : arr[0].equals(HumanPlayer.marker) ? 1 : 2;
+        return calcWinner(board);
+    }
+
+
+    //used for AI's testing
+    public static int calcWinner(String[][] board) {
+        for(int i = 0; i < board.length; i++) {
+            if(board[0][i].equals(board[1][i]) && board[0][i].equals(board[2][i]) && !board[0][i].equals(Board.empty)) {
+                return board[0][i].equals(HumanPlayer.marker) ? 1 : 2;
             }
         }
-        for(String arr[] : board) {
-            for(int i = 0; i < arr.length; i++) {
-                if(board[i][0].equals(board[i][1]) && board[i][0].equals(board[i][2])) {
-                    return arr[0].equals(Board.empty) ? 0 : arr[0].equals(HumanPlayer.marker) ? 1 : 2;
-                }
+        for(int i = 0; i < board[0].length; i++) {
+            if(board[i][0].equals(board[i][1]) && board[i][0].equals(board[i][2]) && !board[i][0].equals(Board.empty)) {
+                return board[i][0].equals(HumanPlayer.marker) ? 1 : 2;
             }
-            break;
         }
-        if(board[0][0].equals(board[1][1]) && board[0][0].equals(board[2][2])) {
-            return board[0][0].equals(Board.empty) ? 0 : board[0][0].equals(HumanPlayer.marker) ? 1 : 2;
+        if(board[0][0].equals(board[1][1]) && board[0][0].equals(board[2][2]) && !board[0][0].equals(Board.empty)) {
+            return board[0][0].equals(HumanPlayer.marker) ? 1 : 2;
         }
-        if(board[0][2].equals(board[1][1]) && board[0][0].equals(board[2][0])) {
-            return board[1][1].equals(Board.empty) ? 0 : board[1][1].equals(HumanPlayer.marker) ? 1 : 2;
+        if(board[0][2].equals(board[1][1]) && board[1][1].equals(board[2][0]) && !board[1][1].equals(Board.empty)) {
+            return board[1][1].equals(HumanPlayer.marker) ? 1 : 2;
         }
         return 0;
     }
