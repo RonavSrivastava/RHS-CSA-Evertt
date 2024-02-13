@@ -30,7 +30,7 @@ public class AppMain {
      *  - Design your classes on paper before moving to coding.
      */
     public static void main(String[] args) {
-        PoemAnalyzer poemAnalyzer = new PoemAnalyzer(POEM_B);
+        PoemAnalyzer poemAnalyzer = new PoemAnalyzer(POEM_C);
         System.out.println(poemAnalyzer.poemWordsNoDupes);
         System.out.println(poemAnalyzer.counts);
         poemAnalyzer.printStats();
