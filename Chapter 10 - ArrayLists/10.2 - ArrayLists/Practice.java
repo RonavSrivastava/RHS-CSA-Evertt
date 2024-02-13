@@ -50,25 +50,16 @@ public class Practice {
         }
 
         //remove doubled up spaces because the output would have a string with only a space
-        // String input3 = "";
-        // for(int i = 0; i < input2.length()-1; i++) {
-        //     if ((input2.charAt(i) == ' ' && input2.charAt(i+1) == ' ')) {
-        //         input3 += input2.charAt(i);
-        //         i++;
-        //     } else {
-        //         input3 += input2.charAt(i);
-        //     }
-        // }
-        // input3 += input2.charAt(input2.length()-1);
-
         String input3 = "";
         for(int i = 0; i < input2.length(); i++) {
             if (input2.charAt(i) == ' ') {
-                input3 += input2.charAt(i);
-                while(input2.charAt(i) == ' ') {
+                while(input2.charAt(i) == ' ' && i < input2.length()-1) {
                     i++;
                 }
-                input3 += input2.charAt(i);
+                if(input2.charAt(i) != ' ') {
+                    input3 += " ";
+                    input3 += input2.charAt(i);
+                }
             } else {
                 input3 += input2.charAt(i);
             }
