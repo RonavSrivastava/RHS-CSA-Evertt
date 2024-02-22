@@ -5,15 +5,26 @@ public class TitanicSimulator extends TitanicSimulatorBase {
     public TitanicSimulator() {
     }
 
-    // Sorts students by the requested method, the returned list should contain the
+    // Sorts students by the requested method, the returned list should contain the-
     //  number of students equal to 'studentCount' and ordered by the requested method.
     public ArrayList<Student> pickStudents(Skyward skyward, int studentCount, SortMethod sortMethod) {
-        // TODO: You MUST implement either an INSERTION or SELECTION sort as part of your solution
-        
-        return null;
+        ArrayList<Student> s = skyward.getStudents();
+        s = sort(s, sortMethod);
+        return copyFirstN(s, studentCount);
     }
 
-    // TODO: You can add you own methods here (like a sort method, mayhaps)
+    private ArrayList<Student> sort(ArrayList<Student> s, SortMethod sortMethod) {
+        for(int i = 1; i < s.size(); i++) {
+            Student cur = s.remove(i);
+            for(int j = 0; j < i; j++) {
+                if(compareStudents(cur, s.get(j), sortMethod) < 0) {
+                    s.add(j, cur); //insert
+                    break;
+                }
+            }
+        }
+        return s;
+    }
     
     // This is a helper method you can use. It compares two students using your the provided comparison method. 
     private int compareStudents(Student a, Student b, SortMethod sortMethod) {
