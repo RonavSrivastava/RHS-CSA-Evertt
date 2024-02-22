@@ -41,7 +41,7 @@ public class NumberGuesserBase {
     // Data
     private Stats statsBasic;
     private Stats statsFast;
-    private int currentNumber;
+    protected int currentNumber;
     private int guessCountThisGame;
 
     // Constructor(s)

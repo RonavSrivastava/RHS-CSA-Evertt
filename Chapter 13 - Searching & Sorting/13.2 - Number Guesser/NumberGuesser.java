@@ -1,4 +1,19 @@
+import java.util.ArrayList;
+
 public class NumberGuesser extends NumberGuesserBase {
+    private int curGuess;
+    private int split;
+    private ArrayList<Integer> posGuesses;
+
+    public NumberGuesser() {
+        curGuess = 0;
+        split = 500;
+        posGuesses = new ArrayList<Integer>();
+        for(int i = 0; i < 1001; i++) {
+            posGuesses.add(i);
+        }
+    }
+
     /* Things you can use & how your methods should behave...
      *   Your methods should repeatedly call the parent class method guess(int n)
      *   to guess a number, until a match is found. That method returns...
@@ -12,8 +27,12 @@ public class NumberGuesser extends NumberGuesserBase {
      *   This method should not attempt to minimize guesses, it is purely 
      *   a linear / sequential guesser. Keep it simple. */
     public int guessNumberBasic() {
-        // TODO
-        return -1;
+        while(guess(curGuess) != 0) {
+            curGuess++;
+        }
+        int temp = curGuess;
+        curGuess = 0;
+        return temp;
     }
 
     /* guessNumberFast() should try to guess the number with the minimum
@@ -21,7 +40,35 @@ public class NumberGuesser extends NumberGuesserBase {
      *   Unlike the sequential guesser, this method should attempt to 
      *   minimize the number of guesses it takes to guess the answer. */
     public int guessNumberFast() {
-        // TODO
-        return -1;
+        boolean done = false;
+        while(done == false) {
+            int check = guess(split);
+            if(check == 1) {
+                for(int i = posGuesses.size() - 1; i >= 0; i--) {
+                    if(posGuesses.get(i) < split) {
+                        posGuesses.remove(i);
+                    }
+                }
+                split = posGuesses.size()/2 + posGuesses.get(0);
+            }
+            else if (check == -1) {
+                for(int i = posGuesses.size() - 1; i >= 0; i--) {
+                    if(posGuesses.get(i) > split) {
+                        posGuesses.remove(i);
+                    }
+                }
+                split = posGuesses.size()/2 + posGuesses.get(0);
+            }
+            else {
+                done = true;
+            }
+        }
+        int temp = split;
+        split = 500;
+        posGuesses = new ArrayList<Integer>();
+        for(int i = 0; i < 1001; i++) {
+            posGuesses.add(i);
+        }
+        return temp;
     }
 }
