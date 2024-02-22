@@ -85,7 +85,6 @@ public class Practice {
      * Examples...
      *  input: { 1, 3, 4, 7, 8, 11 }, output: [ 1, 3, 7, 11 ]
      */ 
-    // TODO: write the method justPrimes
     public static ArrayList<String> justPrimes(Integer[] input) {
         ArrayList<String> output = new ArrayList<String>();
         for(int i = 0; i < input.length; i++) {
