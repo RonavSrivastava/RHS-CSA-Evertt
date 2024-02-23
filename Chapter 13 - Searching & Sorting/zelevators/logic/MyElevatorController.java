@@ -9,10 +9,10 @@ public class MyElevatorController implements ElevatorController {
 
     // Students should implement this function to return their name
     public String getStudentName() {
-        return "<YOUR NAME>";   // <-- TODO: Replace with your name
+        return "potato";   // <-- TODO: Replace with your name
     }
     public int getStudentPeriod() {
-        return -1;              // <-- TODO: Replace with your class period
+        return 1;              // <-- TODO: Replace with your class period
     }
 
     // Event: Game has started
