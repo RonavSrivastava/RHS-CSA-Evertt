@@ -1,31 +1,25 @@
-import java.util.ArrayList;
-
 public class PoemAnalyzer {
-    private ArrayList<String> poemWords;
-    public ArrayList<String> poemWordsNoDupes;
-    public ArrayList<Integer> counts;
+    private WordsAndCounts WAC;
 
     public PoemAnalyzer(String p) {
-        poemWords = HelperFuncs.splitString(p);
-        poemWordsNoDupes = HelperFuncs.remDupes(poemWords);
-        counts = HelperFuncs.count(poemWords, poemWordsNoDupes);
+        WAC = new WordsAndCounts(HelperFuncs.splitString(p));
     }
 
     public void printStats() {
-        while (counts.isEmpty() == false) {
+        while (WAC.counts.isEmpty() == false) {
             int curMax = 0;
-            for (int i = 0; i < counts.size(); i++) {
-                if (counts.get(i) > counts.get(curMax)) {
+            for (int i = 0; i < WAC.counts.size(); i++) {
+                if (WAC.counts.get(i) > WAC.counts.get(curMax)) {
                     curMax = i;
                 }
-                if (poemWordsNoDupes.get(i).compareTo(poemWordsNoDupes.get(curMax)) < 0
-                        && counts.get(i) >= counts.get(curMax)) {
+                if (WAC.poemWordsNoDupes.get(i).compareTo(WAC.poemWordsNoDupes.get(curMax)) < 0
+                        && WAC.counts.get(i) >= WAC.counts.get(curMax)) {
                     curMax = i;
                 }
             }
-            System.out.println(poemWordsNoDupes.get(curMax) + " (" + counts.get(curMax) + ")");
-            counts.remove(curMax);
-            poemWordsNoDupes.remove(curMax);
+            System.out.println(WAC.poemWordsNoDupes.get(curMax) + " (" + WAC.counts.get(curMax) + ")");
+            WAC.counts.remove(curMax);
+            WAC.poemWordsNoDupes.remove(curMax);
         }
     }
 }
