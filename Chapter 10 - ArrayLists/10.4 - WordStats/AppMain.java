@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class AppMain {
     public static final String POEM_A = "Oh, Professor Thompson, you're truly the best, Your wisdom and guidance, they put me to the test. With patience and kindness, you've shown me the way, In this world of coding, you're the sun's brightest ray. You've taught me the algorithms, the logic, the code, With you as my mentor, I'm on the right road. Your lectures are like music, so clear and so bright, In the world of computer science, you are the guiding light";
     public static final String POEM_B = "Pete, oh Pete, a joyful pup so sweet, With wagging tail, he's such a treat. Pete's eyes, oh Pete's eyes, so bright and keen, In every adventure, he's the best I've seen. He runs, oh he runs, so swift and free, In the meadow, under the sun's decree. Pete's bark, oh Pete's bark, a cheerful sound, Echoing joy, all around. He jumps, oh he jumps, with boundless glee, Over hills and dales, so wild and carefree. Pete's paws, oh Pete's paws, leave prints so fine, In the sands of time, a treasure, a sign. With Pete, oh dear Pete, life's pure delight, A loyal friend, from morning to night. He's the one, oh the one, that warms my heart, In this tale of love, he's the central part. So here's to Pete, oh lovable Pete, With boundless love, our hearts shall beat. In this poem of praise, he takes the lead, Our cherished companion, indeed.";
@@ -31,9 +29,8 @@ public class AppMain {
      */
     public static void main(String[] args) {
         PoemAnalyzer poemAnalyzer = new PoemAnalyzer(POEM_C);
-        System.out.println(poemAnalyzer.poemWordsNoDupes);
-        System.out.println(poemAnalyzer.counts);
+        // System.out.println(poemAnalyzer.poemWordsNoDupes); //debug stuff
+        // System.out.println(poemAnalyzer.counts); //debug stuff
         poemAnalyzer.printStats();
-        // TODO: Feed in one of the example poems defined above to your analyzer class instance.
     }
 }

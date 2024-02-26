@@ -10,7 +10,7 @@ public class AppMain {
         // TODO: ...
 
         // Print out your solution, maze can do that for you (it's already written)
-        Location[] replaceWithYourSln = new Location[0];
+        Location[] replaceWithYourSln = getMazeSol();
         maze.printMazeAndPath(replaceWithYourSln);
     }
 
@@ -39,5 +39,10 @@ public class AppMain {
             return false;
         }
         return true;
+    }
+
+    private static Location[] getMazeSol() {
+        
+        return null;
     }
 }
