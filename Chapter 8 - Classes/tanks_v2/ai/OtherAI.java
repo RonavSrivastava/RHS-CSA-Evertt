@@ -23,9 +23,9 @@ public class OtherAI extends TankAIBase {
             dict.put(i, Dist(getPowerUps()[i].getPos(), pos));
         }
         dict = bubSort(dict);
-        System.out.println(dict);
+        // System.out.println(dict);
  
-        earlyGame();
+        // earlyGame();
  
         return true;
     }
