@@ -24,7 +24,7 @@ public class Game implements ActionListener {
     public static final int POINTS_HIT_TARGET       = 25;
     public static final int POINTS_POWERUP_PTS      = 25;
     public static final int POINTS_POWERUP_RANGE    = 20;   // Percentile increase
-    public static final int POINTS_POWERUP_SPEED    = 50;   // Percentile increase
+    public static final int POINTS_POWERUP_SPEED    = 1500;   // Percentile increase
 
     private static final int UPDATE_TIMER_PERIOD    = 16;   // In milliseconds
     private static final Vec2 LEVELTIMER_TEXT_BOX_HALF_DIMS_PIXELS = new Vec2(40, (double)World.FIELD_BORDER_TOP * 0.5);
