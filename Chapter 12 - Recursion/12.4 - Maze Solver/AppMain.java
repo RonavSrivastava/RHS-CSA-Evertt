@@ -14,7 +14,7 @@ public class AppMain {
         // TODO: ...
 
         // Print out your solution, maze can do that for you (it's already written)
-        Location[] replaceWithYourSln = getMazeSol();
+        ArrayList<Location> replaceWithYourSln = getMazeSol();
         maze.printMazeAndPath(replaceWithYourSln);
     }
 
@@ -47,20 +47,23 @@ public class AppMain {
         return true;
     }
 
-    private static Location[] getMazeSol() {
+    private static ArrayList<Location> getMazeSol() {
         System.out.println(sol);
-        sol.add(new Location(curLoc));
-        for (int i = 0; i < sol.size() - 1; i++) {
-            if (hasVisitedNode(curLoc)) {
-                for (int j = sol.size() - 1; j > i; j--) {
-                    sol.remove(j);
+        if (!hasVisitedNode(curLoc)) {
+            sol.add(new Location(curLoc));
+            for (int i = 0; i < sol.size() - 1; i++) {
+                if (hasVisitedNode(curLoc)) {
+                    for (int j = sol.size() - 1; j > i; j--) {
+                        sol.remove(j);
+                    }
                 }
             }
+            markVisited(curLoc);
         }
-        markVisited(curLoc);
 
         if (curLoc.equals(Maze.EXIT)) {
-            return (Location[]) sol.toArray();
+            System.out.println(sol);
+            return sol;
         } else if (maze.canGoRight(curLoc) && !hasVisitedNode((new Location(curLoc)).incRight())) {
             curLoc.incRight();
             return getMazeSol();
@@ -74,9 +77,20 @@ public class AppMain {
             curLoc.incLeft();
             return getMazeSol();
         } else {
-            sol.remove(sol.size() - 1);
+            sol.remove((int) (sol.size() - 1));
+            curLoc = new Location(sol.get(sol.size() - 1));
             return getMazeSol();
         }
+    }
+
+    private static boolean isDouble(int i) {
+        int num = 0;
+        for (int j = sol.size() - 1; j >= 0; j--) {
+            if (sol.get(j).equals(sol.get(i))) {
+                num++;
+            }
+        }
+        return num >= 2 ? true : false;
     }
 }
 

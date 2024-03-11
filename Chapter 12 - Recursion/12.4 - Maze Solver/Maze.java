@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 // Maze keeps track of the maze object itself.
 //  The coordinate system is 0,0 in the lower left with
 //    positive x going right & positive y going up.
@@ -89,14 +91,14 @@ public class Maze {
         str = str.substring(0, loc.getX()) + node + str.substring(loc.getX() + 1);
         lclMaze[maze.length - loc.getY() - 1] = str;
     }
-    public void printMazeAndPath(Location[] path) {
+    public void printMazeAndPath(ArrayList<Location> path) {
         // update a copy of the maze
         String[] lclMaze = copyMaze();
         if (path != null) {
             Location prevLoc = null;
             boolean isValidPath = true;
-            for (int i = 0; i < path.length; i++) {
-                Location loc = path[i];
+            for (int i = 0; i < path.size(); i++) {
+                Location loc = path.get(i);
                 isValidPath = isValidPath && ((prevLoc == null) || isLegalMove(prevLoc, loc));
                 markMapLocation(lclMaze, loc, isValidPath);
                 prevLoc = loc;

@@ -1,251 +1,77 @@
 package ai;
-
+ 
+import java.util.ArrayList;
+ 
+import game.PowerUp;
 import game.Tank;
 import game.TankAIBase;
 import game.Target;
 import game.Vec2;
-import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.Hashtable;
-
+ 
 public class TankAI extends TankAIBase {
-
+   
     public String getPlayerName() {
-        return "The_BigPotato"; // <---- Put your first name here
+        return "Aarav";  // <---- Put your first name here
     }
-
     public int getPlayerPeriod() {
-        return 1;
+        return 1;                // <---- Put your period here
     }
-
+       
+    // You are free to add member variables & methods to this class (and delete this comment).
+    //  You should use the methods in its base class (TankAIBase) to query the world.
+    //  Note that you are not allowed to reach into game code directly or make any
+    //  modifications to code in the game package. Use your judgement and ask your
+    //  teacher if you are not sure. If it feels like cheating, it probably is.
+ 
     public boolean updateAI() {
-        Vec2 pos = getTankPos();
-        Dictionary<Integer, Double> dict = new Hashtable<>();
-        for (int i = 0; i < getPowerUps().length; i++) {
-            dict.put(i, Dist(getPowerUps()[i].getPos(), pos));
-        }
-        dict = bubSort(dict);
-
-        if (getTankShotRange() < 14) {
-            earlyGame();
-        } else {
-            if (!(tank.getPos().x < 12 && tank.getPos().x > 10 && tank.getPos().y < 7 && tank.getPos().y > 5)) {
-                moveToPU(new Vec2(11, 6));
-                System.out.println(tank.getPos());
-            } else {
-                lateGame();
+        PowerUp powerUps[] = getPowerUps();
+        Tank tank = this.getTank();
+        Target targets[] = getTargets();
+ 
+ 
+        for(int i = 0; i < targets.length; i++) {
+            if(getTankShotRange() >= targetDistance(tank, targets[i])) {
+                if(Math.atan((double)(Math.abs((targets[i].getPos().x - tank.getPos().x))/Math.abs((targets[i].getPos().y - tank.getPos().y)))) <= (double)(Math.PI/2))
+                queueCmd("shoot", new Vec2((targets[i].getPos().x - tank.getPos().x), (targets[i].getPos().y - tank.getPos().y)));
             }
         }
-
+ 
+ 
+        double temp = pUpDistance(tank, powerUps[0]);
+        ArrayList<Vec2> pU = new ArrayList<Vec2>();
+        for(int i = 1; i < powerUps.length; i++) {
+            if(pUpDistance(tank, powerUps[i]) < temp) {
+                temp = pUpDistance(tank, powerUps[i]);
+                pU.add(0, powerUps[i].getPos());
+            }
+            else {
+                pU.add(powerUps[0].getPos());
+            }
+        }
+       
+            if(tank.getPos().x < pU.get(0).x) {
+                queueCmd("move", new Vec2(1, 0));
+            }
+            else if(tank.getPos().x > pU.get(0).x) {
+                queueCmd("move", new Vec2(-1, 0));
+            }
+            else if(tank.getPos().y < pU.get(0).y) {
+                queueCmd("move", new Vec2(0, 1));
+            }
+            else if(tank.getPos().y > pU.get(0).y) {
+                queueCmd("move", new Vec2(0, -1));
+            }
+       
         return true;
     }
-
-    public void earlyGame() { // get powerups in early game, only shoot under certain conditions
-        Vec2 pos = getTankPos();
-        // Vec2 otherPos = getOther().getPos();
-        Dictionary<Integer, Double> dict = new Hashtable<>();
-        for (int i = 0; i < getPowerUps().length; i++) {
-            dict.put(i, Dist(getPowerUps()[i].getPos(), pos));
-        }
-        dict = bubSort(dict);
-        double puDist = Dist(getPowerUps()[closestPU(dict)].getPos(), pos);
-        // double otherpuDist = Dist(getPowerUps()[closestPU(dict)].getPos(), otherPos);
-
-        // if (otherpuDist > puDist) {
-        moveToPU(getPowerUps()[closestPU(dict)].getPos());
-        // } else {
-        // moveToPU(getPowerUps()[closestPU(dict)].getPos(), true);
-        // }
+ 
+    public double targetDistance(Tank tank, Target target) {
+        return Math.sqrt((tank.getPos().x - target.getPos().x)*(tank.getPos().x - target.getPos().x) + (tank.getPos().y - target.getPos().y)*(tank.getPos().y - target.getPos().y));
     }
-
-    public void lateGame() {
-        Vec2 pos = getTankPos();
-        // Vec2 otherPos = getOther().getPos();
-        Dictionary<Integer, Double> dict2 = new Hashtable<>();
-        for (int i = 0; i < getTargets().length; i++) {
-            dict2.put(i, Dist(getTargets()[i].getPos(), pos));
-        }
-        dict2 = bubSort(dict2);
-        // double tgtDist = Dist(getTargets()[closestTgt(dict2)].getPos(), pos);
-        // double othertgtDist = Dist(getTargets()[closestTgt(dict2)].getPos(),
-        // otherPos);
-
-        queueCmd("shoot", getTargets()[closestTgt(dict2)].getPos().subtract(pos));
+ 
+    public double pUpDistance(Tank tank, PowerUp pUp) {
+        return Math.sqrt((tank.getPos().x - pUp.getPos().x)*(tank.getPos().x - pUp.getPos().x) + (tank.getPos().y - pUp.getPos().y)*(tank.getPos().y - pUp.getPos().y));
     }
-
-    public void moveToPU(Vec2 coor) {
-        Vec2 pos = getTankPos();
-        Vec2 dir = getTankDir();
-        double dX = coor.x - pos.x;
-        double dY = coor.y - pos.y;
-        if (-0.5 <= dY && dY <= 0.5) {
-            dX = Math.min(10, dX);
-            dX = Math.max(-10, dX);
-            if (dX < 0) {
-                queueCmd("move", new Vec2(dX + 0.5, 0));
-            } else {
-                queueCmd("move", new Vec2(dX - 0.5, 0));
-            }
-        } else if (-0.5 <= dX && dX <= 0.5) {
-            dY = Math.min(10, dY);
-            dY = Math.max(-10, dY);
-            if (dY < 0) {
-                queueCmd("move", new Vec2(0, dY + 0.5));
-            } else {
-                queueCmd("move", new Vec2(0, dY - 0.5));
-            }
-        } else if (dir.y <= 0.5 && dir.y >= -0.5) {
-            dX = Math.min(10, dX);
-            dX = Math.max(-10, dX);
-            if (dX < 0) {
-                queueCmd("move", new Vec2(dX + 0.5, 0));
-            } else {
-                queueCmd("move", new Vec2(dX - 0.5, 0));
-            }
-        } else {
-            dY = Math.min(10, dY);
-            dY = Math.max(-10, dY);
-            if (dY < 0) {
-                queueCmd("move", new Vec2(0, dY + 0.5));
-            } else {
-                queueCmd("move", new Vec2(0, dY - 0.5));
-            }
-        }
-    }
-
-    public void moveToPU(Vec2 coor, boolean isSmall) {
-        Vec2 pos = getTankPos();
-        Vec2 dir = getTankDir();
-        if (isSmall) {
-            double dX = coor.x - pos.x;
-            double dY = coor.y - pos.y;
-            if (-0.5 < dY && dY < 0.5) {
-                dX = Math.min(5, dX);
-                dX = Math.max(-5, dX);
-                queueCmd("move", new Vec2(dX, 0));
-            } else if (-0.5 < dX && dX < 0.5) {
-                dY = Math.min(5, dY);
-                dY = Math.max(-5, dY);
-                queueCmd("move", new Vec2(0, dY));
-            } else if (dir.y < 0.5 && dir.y > -0.5) {
-                dX = Math.min(5, dX);
-                dX = Math.max(-5, dX);
-                queueCmd("move", new Vec2(dX, 0));
-            } else {
-                dY = Math.min(5, dY);
-                dY = Math.max(-5, dY);
-                queueCmd("move", new Vec2(0, dY));
-            }
-        } else {
-            double dX = coor.x - pos.x;
-            double dY = coor.y - pos.y;
-            if (-0.5 < dY && dY < 0.5) {
-                queueCmd("move", new Vec2(dX, 0));
-            } else if (-0.5 < dX && dX < 0.5) {
-                queueCmd("move", new Vec2(0, dY));
-            } else if (dir.y < 0.5 && dir.y > -0.5) {
-                queueCmd("move", new Vec2(dX, 0));
-            } else {
-                queueCmd("move", new Vec2(0, dY));
-            }
-        }
-    }
-
-    public int closestPU(Dictionary<Integer, Double> dict) {
-        Vec2 pos = getTankPos();
-        for (int i = 0; i < dict.size(); i++) {
-            if (Math.abs(Dist(getPowerUps()[i].getPos(), pos) - dict.get(0)) < 0.1) {
-                return i;
-            }
-        }
-        return 0;
-    }
-
-    public Dictionary<Integer, Double> swap(Dictionary<Integer, Double> dict, int a, int b) {
-        Double temp1 = dict.get(a);
-        Double temp2 = dict.get(b);
-        dict.remove(a);
-        dict.remove(b);
-        dict.put(b, temp1);
-        dict.put(a, temp2);
-        return dict;
-    }
-
-    public Dictionary<Integer, Double> bubSort(Dictionary<Integer, Double> dict) {
-        int len = dict.size();
-        int n = 0;
-        for (int j = 0; j < len; j++) {
-            boolean done = true;
-            for (int i = 0; i < len - 1 - n; i++) {
-                if (dict.get(i) > dict.get(i + 1)) {
-                    swap(dict, i, i + 1);
-                    done = false;
-                }
-            }
-            if (done) {
-                break;
-            }
-            n++;
-        }
-        return dict;
-    }
-
-    public double Dist(Vec2 coor1, Vec2 coor2) {
-        return Math.sqrt(Math.pow(coor1.x - coor2.x, 2) + Math.pow(coor1.y - coor2.y, 2));
-    }
-
-    public int closestTgt(Dictionary<Integer, Double> dict) {
-        int prevMax = 0;
-        for (int i = 1; i < dict.size(); i++) {
-            if (Math.abs(getAng(tank.getPos(), getTargets()[i].getPos())) < Math
-                    .abs(getAng(tank.getPos(), getTargets()[prevMax].getPos()))) {
-                prevMax = i;
-            }
-        }
-        System.out.println(prevMax);
-        return prevMax;
-    }
-
-    public void moveTotgt(Target t) {
-        double ang = Math.atan2(t.getPos().y - tank.getPos().y, t.getPos().x - tank.getPos().y);
-        double dX = (Dist(t.getPos(), getTankPos()) - tank.getShotRange()) * Math.cos(ang);
-        double dY = (Dist(t.getPos(), getTankPos()) - tank.getShotRange()) * Math.sin(ang);
-        moveToPU(new Vec2(dX, dY), true);
-    }
-
-    public double getAng(Vec2 p1, Vec2 p2) {
-        return Math.atan2(p2.y - p1.y, p2.x - p1.x);
-    }
-
-    public void moveToNoClamp(Vec2 coor) {
-        Vec2 pos = getTankPos();
-        Vec2 dir = getTankDir();
-        double dX = coor.x - pos.x;
-        double dY = coor.y - pos.y;
-        if (-0.5 <= dY && dY <= 0.5) {
-            if (dX < 0) {
-                queueCmd("move", new Vec2(dX + 0.5, 0));
-            } else {
-                queueCmd("move", new Vec2(dX - 0.5, 0));
-            }
-        } else if (-0.5 <= dX && dX <= 0.5) {
-            if (dY < 0) {
-                queueCmd("move", new Vec2(0, dY + 0.5));
-            } else {
-                queueCmd("move", new Vec2(0, dY - 0.5));
-            }
-        } else if (dir.y <= 0.5 && dir.y >= -0.5) {
-            if (dX < 0) {
-                queueCmd("move", new Vec2(dX + 0.5, 0));
-            } else {
-                queueCmd("move", new Vec2(dX - 0.5, 0));
-            }
-        } else {
-            if (dY < 0) {
-                queueCmd("move", new Vec2(0, dY + 0.5));
-            } else {
-                queueCmd("move", new Vec2(0, dY - 0.5));
-            }
-        }
-    }
+ 
+ 
 }
