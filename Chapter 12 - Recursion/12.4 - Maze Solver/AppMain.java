@@ -52,10 +52,8 @@ public class AppMain {
             sol.add(new Location(curLoc));
             markVisited(curLoc);
         }
-
+        
         if (curLoc.equals(Maze.EXIT)) {
-            //done
-            System.out.println(sol);
             return sol;
         } else if (maze.canGoRight(curLoc) && !hasVisitedNode((new Location(curLoc)).incRight())) {
             curLoc.incRight();
