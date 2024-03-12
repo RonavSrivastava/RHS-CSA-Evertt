@@ -48,59 +48,28 @@ public class AppMain {
     }
 
     private static ArrayList<Location> getMazeSol() {
-        System.out.println(sol);
         if (!hasVisitedNode(curLoc)) {
             sol.add(new Location(curLoc));
-            for (int i = 0; i < sol.size() - 1; i++) {
-                if (hasVisitedNode(curLoc)) {
-                    for (int j = sol.size() - 1; j > i; j--) {
-                        sol.remove(j);
-                    }
-                }
-            }
             markVisited(curLoc);
         }
 
         if (curLoc.equals(Maze.EXIT)) {
+            //done
             System.out.println(sol);
             return sol;
         } else if (maze.canGoRight(curLoc) && !hasVisitedNode((new Location(curLoc)).incRight())) {
             curLoc.incRight();
-            return getMazeSol();
         } else if (maze.canGoDown(curLoc) && !hasVisitedNode((new Location(curLoc)).incDown())) {
             curLoc.incDown();
-            return getMazeSol();
         } else if (maze.canGoUp(curLoc) && !hasVisitedNode((new Location(curLoc)).incUp())) {
             curLoc.incUp();
-            return getMazeSol();
         } else if (maze.canGoLeft(curLoc) && !hasVisitedNode((new Location(curLoc)).incLeft())) {
             curLoc.incLeft();
-            return getMazeSol();
         } else {
+            //go back
             sol.remove((int) (sol.size() - 1));
             curLoc = new Location(sol.get(sol.size() - 1));
-            return getMazeSol();
         }
-    }
-
-    private static boolean isDouble(int i) {
-        int num = 0;
-        for (int j = sol.size() - 1; j >= 0; j--) {
-            if (sol.get(j).equals(sol.get(i))) {
-                num++;
-            }
-        }
-        return num >= 2 ? true : false;
+        return getMazeSol();
     }
 }
-
-// "*********************************", 
-// "     * ****      **   ***        ",
-// "**** * *     ***    ***   **** **",
-// "*    * ** **    ****** ****    **",
-// "* ***     ***** ** ***    ** * **",
-// "* ***  **  **       ***** ** *  *",
-// "*      ***     ***           ** *",
-// "* *****   *****  *  **** *** ** *",
-// "*       *        *      ** ***  *",
-// "*********************************"
