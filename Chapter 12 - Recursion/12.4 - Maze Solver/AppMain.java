@@ -11,7 +11,6 @@ public class AppMain {
         // can answer questions about open spaces, possible moves, etc.
         // On each step, you can only move in a cardinal direction (left/right/up/down).
         // Your solution should take the form of an array of Locations
-        // TODO: ...
 
         // Print out your solution, maze can do that for you (it's already written)
         ArrayList<Location> replaceWithYourSln = getMazeSol();
