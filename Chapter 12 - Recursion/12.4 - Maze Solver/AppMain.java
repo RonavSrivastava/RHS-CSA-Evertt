@@ -13,7 +13,7 @@ public class AppMain {
         // Your solution should take the form of an array of Locations
 
         // Print out your solution, maze can do that for you (it's already written)
-        ArrayList<Location> replaceWithYourSln = getMazeSol();
+        Location[] replaceWithYourSln = getMazeSol();
         maze.printMazeAndPath(replaceWithYourSln);
     }
 
@@ -46,14 +46,14 @@ public class AppMain {
         return true;
     }
 
-    private static ArrayList<Location> getMazeSol() {
+    private static Location[] getMazeSol() {
         if (!hasVisitedNode(curLoc)) {
             sol.add(new Location(curLoc));
             markVisited(curLoc);
         }
-        
+
         if (curLoc.equals(Maze.EXIT)) {
-            return sol;
+            return sol.toArray(new Location[0]);
         } else if (maze.canGoRight(curLoc) && !hasVisitedNode((new Location(curLoc)).incRight())) {
             curLoc.incRight();
         } else if (maze.canGoDown(curLoc) && !hasVisitedNode((new Location(curLoc)).incDown())) {
@@ -63,7 +63,7 @@ public class AppMain {
         } else if (maze.canGoLeft(curLoc) && !hasVisitedNode((new Location(curLoc)).incLeft())) {
             curLoc.incLeft();
         } else {
-            //go back
+            // go back
             sol.remove((int) (sol.size() - 1));
             curLoc = new Location(sol.get(sol.size() - 1));
         }
