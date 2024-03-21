@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class NumberGuesser extends NumberGuesserBase {
     private int curGuess;
-    private int split;
     private ArrayList<Integer> posGuesses;
 
     public NumberGuesser() {
@@ -25,9 +24,7 @@ public class NumberGuesser extends NumberGuesserBase {
      * a linear / sequential guesser. Keep it simple.
      */
     public int guessNumberBasic() {
-        curGuess = 0;
-        while (guess(curGuess) != 0) {
-            curGuess++;
+        for (curGuess = 0; guess(curGuess) != 0; curGuess++) {
         }
         return curGuess;
     }
@@ -39,32 +36,20 @@ public class NumberGuesser extends NumberGuesserBase {
      * minimize the number of guesses it takes to guess the answer.
      */
     public int guessNumberFast() {
-        boolean done = false;
-        split = 500;
         posGuesses = new ArrayList<Integer>();
         for (int i = 0; i < 1001; i++) {
             posGuesses.add(i);
         }
-        while (done == false) {
-            int check = guess(split);
-            if (check == 1) {
-                for (int i = posGuesses.size() - 1; i >= 0; i--) {
-                    if (posGuesses.get(i) < split) {
-                        posGuesses.remove(i);
-                    }
-                }
-                split = posGuesses.size() / 2 + posGuesses.get(0);
-            } else if (check == -1) {
-                for (int i = posGuesses.size() - 1; i >= 0; i--) {
-                    if (posGuesses.get(i) > split) {
-                        posGuesses.remove(i);
-                    }
-                }
-                split = posGuesses.size() / 2 + posGuesses.get(0);
-            } else {
-                done = true;
+        return recur(posGuesses.size() / 2);
+    }
+
+    public int recur(int split) {
+        int check = guess(split);
+        for (int i = posGuesses.size() - 1; i >= 0; i--) {
+            if ((check == 1 && posGuesses.get(i) < split) || (check == -1 && posGuesses.get(i) > split)) {
+                posGuesses.remove(i);
             }
         }
-        return split;
+        return check == 0 ? split : recur(posGuesses.size() / 2 + posGuesses.get(0));
     }
 }
