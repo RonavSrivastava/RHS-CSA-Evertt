@@ -1,9 +1,6 @@
 import java.util.ArrayList;
 
 public class NumberGuesser extends NumberGuesserBase {
-    private int curGuess;
-    private ArrayList<Integer> posGuesses;
-
     public NumberGuesser() {
     }
 
@@ -24,6 +21,7 @@ public class NumberGuesser extends NumberGuesserBase {
      * a linear / sequential guesser. Keep it simple.
      */
     public int guessNumberBasic() {
+        int curGuess;
         for (curGuess = 0; guess(curGuess) != 0; curGuess++) {
         }
         return curGuess;
@@ -36,20 +34,43 @@ public class NumberGuesser extends NumberGuesserBase {
      * minimize the number of guesses it takes to guess the answer.
      */
     public int guessNumberFast() {
-        posGuesses = new ArrayList<Integer>();
+        ArrayList<Integer> posGuesses = new ArrayList<Integer>();
         for (int i = 0; i < 1001; i++) {
             posGuesses.add(i);
         }
-        return recur(posGuesses.size() / 2);
+
+        // return recur(posGuesses);
+        return binarySearch(posGuesses);
     }
 
-    public int recur(int split) {
+    public int recur(ArrayList<Integer> posGuesses) {
+        int split = posGuesses.size() / 2 + posGuesses.get(0);
         int check = guess(split);
         for (int i = posGuesses.size() - 1; i >= 0; i--) {
-            if ((check == 1 && posGuesses.get(i) < split) || (check == -1 && posGuesses.get(i) > split)) {
+            if ((check == 1 && posGuesses.get(i) <= split) || (check == -1 && posGuesses.get(i) >= split)) {
                 posGuesses.remove(i);
             }
         }
-        return check == 0 ? split : recur(posGuesses.size() / 2 + posGuesses.get(0));
+        return check == 0 ? split : recur(posGuesses);
+    }
+
+    public int binarySearch(ArrayList<Integer> posGuesses) {
+        int min = 0;
+        int max = posGuesses.size();
+
+        while (min <= max) {
+            int mid = (max + min) / 2;
+            int check = guess(mid);
+            if (check == 0) {
+                return mid;
+            } else if (min == max) {
+                return -1;
+            } else if (check == -1) {
+                max = mid - 1;
+            } else if (check == 1) {
+                min = mid + 1;
+            }
+        }
+        return -1;
     }
 }
