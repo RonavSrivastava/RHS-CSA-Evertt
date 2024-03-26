@@ -22,8 +22,7 @@ public class NumberGuesser extends NumberGuesserBase {
      */
     public int guessNumberBasic() {
         int curGuess;
-        for (curGuess = 0; guess(curGuess) != 0; curGuess++) {
-        }
+        for (curGuess = 0; guess(curGuess) != 0; curGuess++) {}
         return curGuess;
     }
 
