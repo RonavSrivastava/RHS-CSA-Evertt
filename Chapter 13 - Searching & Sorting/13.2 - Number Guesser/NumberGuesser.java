@@ -39,19 +39,19 @@ public class NumberGuesser extends NumberGuesserBase {
             posGuesses.add(i);
         }
 
-        // return recur(posGuesses);
-        return binarySearch(posGuesses);
+        return recur(posGuesses);
+        // return binarySearch(posGuesses);
     }
 
     public int recur(ArrayList<Integer> posGuesses) {
-        int split = posGuesses.size() / 2 + posGuesses.get(0);
-        int check = guess(split);
+        int idx = posGuesses.size() / 2;
+        int check = guess(posGuesses.get(idx));
         for (int i = posGuesses.size() - 1; i >= 0; i--) {
-            if ((check == 1 && posGuesses.get(i) <= split) || (check == -1 && posGuesses.get(i) >= split)) {
+            if ((check == 1 && i <= idx) || (check == -1 && i >= idx)) {
                 posGuesses.remove(i);
             }
         }
-        return check == 0 ? split : recur(posGuesses);
+        return check == 0 ? posGuesses.get(idx) : recur(posGuesses);
     }
 
     public int binarySearch(ArrayList<Integer> posGuesses) {
