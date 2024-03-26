@@ -22,7 +22,8 @@ public class NumberGuesser extends NumberGuesserBase {
      */
     public int guessNumberBasic() {
         int curGuess;
-        for (curGuess = 0; guess(curGuess) != 0; curGuess++) {}
+        for (curGuess = 0; guess(curGuess) != 0; curGuess++) {
+        }
         return curGuess;
     }
 
@@ -38,38 +39,37 @@ public class NumberGuesser extends NumberGuesserBase {
             posGuesses.add(i);
         }
 
-        return recur(posGuesses);
-        // return binarySearch(posGuesses);
+        // return recur(posGuesses);
+        return binarySearch();
     }
 
     public int recur(ArrayList<Integer> posGuesses) {
         int idx = posGuesses.size() / 2;
-        int check = guess(posGuesses.get(idx));
-        for (int i = posGuesses.size() - 1; i >= 0; i--) {
-            if ((check == 1 && i <= idx) || (check == -1 && i >= idx)) {
-                posGuesses.remove(i);
+        int check = 0;
+        if (posGuesses.size() > 1) {
+            check = guess(posGuesses.get(idx));
+            for (int i = posGuesses.size() - 1; i >= 0; i--) {
+                if ((check == 1 && i <= idx) || (check == -1 && i >= idx)) {
+                    posGuesses.remove(i);
+                }
             }
         }
         return check == 0 ? posGuesses.get(idx) : recur(posGuesses);
     }
 
-    public int binarySearch(ArrayList<Integer> posGuesses) {
-        int min = 0;
-        int max = posGuesses.size();
+    public int binarySearch() {
+        int min = NumberGuesserBase.MIN_NUMBER;
+        int max = NumberGuesserBase.MAX_NUMBER;
+        int mid = 0;
 
-        while (min <= max) {
-            int mid = (max + min) / 2;
-            int check = guess(mid);
-            if (check == 0) {
-                return mid;
-            } else if (min == max) {
-                return -1;
-            } else if (check == -1) {
-                max = mid - 1;
-            } else if (check == 1) {
-                min = mid + 1;
+        while (min < max) {
+            mid = (max + min) / 2;
+            switch (guess(mid)) {
+                case 0: return mid; 
+                case -1: max = mid - 1; break;
+                case 1: min = mid + 1; break;
             }
         }
-        return -1;
+        return min;
     }
 }
