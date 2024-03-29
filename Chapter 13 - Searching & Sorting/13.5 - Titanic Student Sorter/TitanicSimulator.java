@@ -8,21 +8,38 @@ public class TitanicSimulator extends TitanicSimulatorBase {
     // Sorts students by the requested method, the returned list should contain the-
     //  number of students equal to 'studentCount' and ordered by the requested method.
     public ArrayList<Student> pickStudents(Skyward skyward, int studentCount, SortMethod sortMethod) {
-        ArrayList<Student> s = skyward.getStudents();
-        s = sort(s, sortMethod);
+        ArrayList<Student> s = sort(skyward.getStudents(), sortMethod);
         return copyFirstN(s, studentCount);
     }
 
+    // private ArrayList<Student> sort(ArrayList<Student> s, SortMethod sortMethod) {
+    //     for(int i = 1; i < s.size(); i++) {
+    //         Student cur = s.remove(i);
+    //         for(int j = 0; j < i; j++) {
+    //             if(compareStudents(cur, s.get(j), sortMethod) < 0) {
+    //                 s.add(j, cur); //insert
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     System.out.println(s);
+    //     return s;
+    // }
+
     private ArrayList<Student> sort(ArrayList<Student> s, SortMethod sortMethod) {
-        for(int i = 1; i < s.size(); i++) {
-            Student cur = s.remove(i);
-            for(int j = 0; j < i; j++) {
+        for(int i = 0; i < s.size(); i++) {
+            int idx = 0;
+            Student cur = s.get(i);
+            for(int j = i; j < s.size(); j++) {
                 if(compareStudents(cur, s.get(j), sortMethod) < 0) {
-                    s.add(j, cur); //insert
-                    break;
+                    idx = j;
+                    cur = s.get(j);
                 }
             }
+            s.remove(idx);
+            s.add(0, cur);
         }
+        System.out.println(s);
         return s;
     }
     
