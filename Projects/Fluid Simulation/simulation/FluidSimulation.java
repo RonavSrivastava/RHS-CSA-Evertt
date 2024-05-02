@@ -66,7 +66,11 @@ public class FluidSimulation extends FluidSimulationBase {
 
     // Set the source/forces field for the dye/smoke in the density field
     public void setSourcesForDensityField(double[][] densField) {
-        // TODO
+        for(int r = 0; r < densField.length; r++) {
+            for(int c = 0; c < densField[r].length; c++) {
+                densField[r][c] = r + c;
+            }
+        }
     }
 
     // Set the source/forces field for the velocity field
