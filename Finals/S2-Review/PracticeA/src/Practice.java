@@ -54,20 +54,7 @@ public class Practice {
      * percToLetterGrade(55.5) -> "N"
      */
     public String percToLetterGrade(double perc) {
-        if (perc >= 0 && perc <= 100) {
-            if (perc >= 90) {
-                return "A";
-            } else if (perc >= 80) {
-                return "B";
-            } else if (perc >= 70) {
-                return "C";
-            } else if (perc >= 60) {
-                return "D";
-            } else if (perc < 60) {
-                return "N";
-            }
-        }
-        return "Not a valid grade";
+        return (perc >= 90 && perc <= 100) ? "A" : (perc >= 80) ? "B" : (perc >= 70) ? "C" : (perc >= 60) ? "D" : (perc < 60 && perc >= 0) ? "N" : null;
     }
 
     /*
