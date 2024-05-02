@@ -80,27 +80,31 @@ public class Practice {
      * strToList("5; 2", ',') -> null
      */
     public int[] strToList(String str, char delim) {
-        for(int i = 0; i < recur(str, delim, new int[] {}).length; i++) {
-            System.out.println(recur(str, delim, new int[] {})[i]);
+        for (int i = 1; i < str.length(); i++) {
+            if (str.charAt(i) == ' ' && str.charAt(i-1) == delim) {
+                str = str.substring(0, i) + str.substring(i + 1, str.length());
+                i--;
+            }
         }
-        return recur(str, delim, new int[] {});
-    }
 
-    public int[] recur(String str, char delim, int[] cur) {
-        if (str.length() == 0 || str.indexOf(delim) == -1) {
-            return new int[] {};
+        ArrayList<Integer> output = new ArrayList<Integer>();
+        while (str.length() > 0 && str.indexOf(delim) != -1) {
+            output.add(tryParseInt(str.substring(0, str.indexOf(delim))));
+            if (tryParseInt(str.substring(0, str.indexOf(delim))) == null) {
+                output.remove(output.size() - 1);
+            }
+            str = str.substring(str.indexOf(delim) + 1, str.length());
         }
-        int[] next = new int[cur.length + 1];
-        for (int i = 0; i < cur.length; i++) {
-            next[i + 1] = cur[i];
-        }
-        String sub = str.substring(0, str.indexOf(delim));
-        String rest = str.substring(str.indexOf(delim) + 1, str.length());
-        next[0] = tryParseInt(sub);
-        if(next[0].equals(null)) {
+        output.add(tryParseInt(str));
+        if (tryParseInt(str) == null) {
             return null;
         }
-        return recur(rest, delim, next);
+
+        int[] arr = new int[output.size()];
+        for (int i = 0; i < output.size(); i++) {
+            arr[i] = output.get(i);
+        }
+        return arr;
     }
 
     // Helper method - converts an integer contained in a string to an Integer
