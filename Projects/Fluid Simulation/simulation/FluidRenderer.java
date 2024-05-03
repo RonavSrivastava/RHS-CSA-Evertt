@@ -25,13 +25,22 @@ import java.awt.image.WritableRaster;
  */
 public class FluidRenderer implements FluidRendererBase {
     public void render(WritableRaster renderTarget, FluidSimulationBase sim) {
-        // TODO
+        double[][] f = sim.getDensityField();
 
-        // *** Test code (remove me) ***
-        for (int x = 0; x < renderTarget.getWidth(); x++) {
-            renderTarget.setPixel(x, renderTarget.getHeight() / 2, 
-                                  new int[] { 0, 0, 0, 255 });
+        // for (int i = 0; i < f.length; i++) {
+        // for (int j = 0; j < f[i].length; j++) {
+        // renderTarget.setPixel(i, j, new int[] { 0, (int) (f[i][j]), 0, 255 });
+        // }
+        // }
+
+        for (int i = 0; i < f.length; i++) {
+            for (int j = 0; j < f[i].length; j++) {
+                for (int r = 0; r < 7; r++) {
+                    for (int r2 = 0; r2 < 7; r2++) {
+                        renderTarget.setPixel((i * 7) + r, (j * 7) + r2, new int[] { 0, (int) (f[i][j]), 0, 255 });
+                    }
+                }
+            }
         }
-        // *** Test code (remove me) ***
     }
 }

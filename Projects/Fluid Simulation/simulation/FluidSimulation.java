@@ -1,5 +1,10 @@
 package simulation;
 
+import java.util.ArrayList;
+import java.util.concurrent.ArrayBlockingQueue;
+
+import javax.lang.model.SourceVersion;
+
 import framework.FluidSimulationBase;
 import framework.Vec2;
 
@@ -35,6 +40,7 @@ import framework.Vec2;
 public class FluidSimulation extends FluidSimulationBase {
     // consts
     private final double DENSITY_DAMP_FACTOR    = 0.05;
+    private ArrayList<Vec2> sources = new ArrayList<Vec2>();
 
     // input
     public void onKeyPressed(char ch) {
@@ -66,15 +72,26 @@ public class FluidSimulation extends FluidSimulationBase {
 
     // Set the source/forces field for the dye/smoke in the density field
     public void setSourcesForDensityField(double[][] densField) {
-        for(int r = 0; r < densField.length; r++) {
-            for(int c = 0; c < densField[r].length; c++) {
-                densField[r][c] = r + c;
-            }
+        if(sources.size() == 0) {
+            sources.add(new Vec2(10, 10));
         }
+        for(int i = 0; i < sources.size(); i++) {
+            densField[(int) sources.get(i).x][(int) sources.get(i).y] = 7500;
+        }
+
+        // for(int r = 0; r < densField.length; r++) {
+        //     for(int c = 0; c < densField[r].length; c++) {
+        //         densField[r][c] = r + c;
+        //     }
+        // }
     }
 
     // Set the source/forces field for the velocity field
     public void setSourcesForVelocityField(Vec2[][] velField) {
-        // TODO
+        for(int r = 0; r < velField.length; r++) {
+            for(int c = 0; c < velField[r].length; c++) {
+                velField[r][c] = new Vec2(Math.random(), Math.random());
+            }
+        }
     }
 }
