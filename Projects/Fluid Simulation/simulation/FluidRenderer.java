@@ -37,7 +37,7 @@ public class FluidRenderer implements FluidRendererBase {
             for (int j = 0; j < f[i].length; j++) {
                 for (int r = 0; r < 7; r++) {
                     for (int r2 = 0; r2 < 7; r2++) {
-                        renderTarget.setPixel((i * 7) + r, (j * 7) + r2, new int[] { 0, (int) (f[i][j]), 0, 255 });
+                        renderTarget.setPixel((i * 7) + r, (j * 7) + r2, new int[] { Math.min((int) (f[i][j] * 0.01), 255), 0, 0, 255 });
                     }
                 }
             }

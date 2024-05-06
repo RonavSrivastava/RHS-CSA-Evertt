@@ -1,12 +1,14 @@
 package simulation;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import javax.lang.model.SourceVersion;
 
 import framework.FluidSimulationBase;
 import framework.Vec2;
+import framework.Vec3;
 
 /* FluidSimulation is responsible for updating the fluid's simulation.
  *  The majority of the simulation code is provided for you. 
@@ -40,16 +42,27 @@ import framework.Vec2;
 public class FluidSimulation extends FluidSimulationBase {
     // consts
     private final double DENSITY_DAMP_FACTOR    = 0.05;
-    private ArrayList<Vec2> sources = new ArrayList<Vec2>();
+    private ArrayList<Vec3> sources = new ArrayList<Vec3>();
+    private boolean pressed = false;
+
 
     // input
     public void onKeyPressed(char ch) {
+        if(ch == ' ') {
+
+        }
     }
     public void onKeyReleased(char ch) {
     }
     public void onMouseButtonPressed(int buttonId) {
+        if(buttonId == 1) {
+            pressed = true;
+        }
     }
     public void onMouseButtonReleased(int buttonId) {
+        if(buttonId == 1) {
+            pressed = false;
+        }
     }
 
     // Update method is called continuously, once per frame, with the amount of time that has 
@@ -63,6 +76,7 @@ public class FluidSimulation extends FluidSimulationBase {
     //  and you can also call getMousePosition_simRelative() to get the mouse position.
     public void update(double deltaTime) {
         // update the density & velocity fields
+        updateSources();
         updateVelocityField(deltaTime);
         updateDensityField(deltaTime);
 
@@ -70,13 +84,17 @@ public class FluidSimulation extends FluidSimulationBase {
         dampDensityField(getDensityField(), Math.max(1.0 - deltaTime * DENSITY_DAMP_FACTOR, 0.0));
     }
 
+    private void updateSources() {
+        //hehe
+    }
+
     // Set the source/forces field for the dye/smoke in the density field
     public void setSourcesForDensityField(double[][] densField) {
         if(sources.size() == 0) {
-            sources.add(new Vec2(10, 10));
+            sources.add(new Vec3(30, 30, 7500));
         }
         for(int i = 0; i < sources.size(); i++) {
-            densField[(int) sources.get(i).x][(int) sources.get(i).y] = 7500;
+            densField[(int) sources.get(i).x][(int) sources.get(i).y] = sources.get(i).z;
         }
 
         // for(int r = 0; r < densField.length; r++) {
@@ -88,9 +106,10 @@ public class FluidSimulation extends FluidSimulationBase {
 
     // Set the source/forces field for the velocity field
     public void setSourcesForVelocityField(Vec2[][] velField) {
+        Random rand = new Random();
         for(int r = 0; r < velField.length; r++) {
             for(int c = 0; c < velField[r].length; c++) {
-                velField[r][c] = new Vec2(Math.random(), Math.random());
+                velField[r][c] = new Vec2((rand.nextDouble()-0.5) * 0.1, (rand.nextDouble()-0.5) * 0.1);
             }
         }
     }
