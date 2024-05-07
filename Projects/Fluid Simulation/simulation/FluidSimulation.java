@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ArrayBlockingQueue;
 
+import java.awt.*;
+
 import javax.lang.model.SourceVersion;
 
 import framework.FluidSimulationBase;
@@ -76,7 +78,7 @@ public class FluidSimulation extends FluidSimulationBase {
     //  and you can also call getMousePosition_simRelative() to get the mouse position.
     public void update(double deltaTime) {
         // update the density & velocity fields
-        updateSources();
+        // updateSources();
         updateVelocityField(deltaTime);
         updateDensityField(deltaTime);
 
@@ -85,6 +87,22 @@ public class FluidSimulation extends FluidSimulationBase {
     }
 
     private void updateSources() {
+        boolean found = false;
+        PointerInfo a = MouseInfo.getPointerInfo();
+        int x = Math.min((int) a.getLocation().getX() - 465, 1024);
+        int y = Math.min((int) a.getLocation().getY() - 256, 600);
+        System.out.println("(" + x + ", " + y + ")");
+        if(pressed) {
+            for(int i = 0; i < sources.size(); i++) {
+                if(sources.get(i).x == x && sources.get(i).y == y) {
+                    found = true;
+                    sources.get(i).add(new Vec3(x, y, 100));
+                }
+            }
+            if(!found) {
+                sources.add(new Vec3(x, y, 100));
+            }
+        }
         //hehe
     }
 
@@ -94,7 +112,7 @@ public class FluidSimulation extends FluidSimulationBase {
             sources.add(new Vec3(30, 30, 7500));
         }
         for(int i = 0; i < sources.size(); i++) {
-            densField[(int) sources.get(i).x][(int) sources.get(i).y] = sources.get(i).z;
+            densField[(int) (sources.get(i).x)][(int) (sources.get(i).y)] = sources.get(i).z;
         }
 
         // for(int r = 0; r < densField.length; r++) {

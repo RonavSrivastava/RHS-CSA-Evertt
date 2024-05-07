@@ -9,8 +9,8 @@ import framework.FluidSimulationBase;
 public abstract class FluidSimulationBase {
     // Constants
     private final int LIN_SOLVE_STEPS = 20;     // Gauss-Seidel solver, number of steps to run
-    private final int FIELD_SIZE_X = 128 + 2;
-    private final int FIELD_SIZE_Y = 64 + 2;
+    private final int FIELD_SIZE_X = 1024;
+    private final int FIELD_SIZE_Y = 600;
     private final double SCALAR_FIELD_DIFFUSION_FACTOR = 0.0001; // So, like the dye or smoke particles, rate of diffusion
     private final double VECTOR_FIELD_DIFFUSION_FACTOR = 0.001; // This is the velocity field (wind or fluid flow), rate of diffusion
 
