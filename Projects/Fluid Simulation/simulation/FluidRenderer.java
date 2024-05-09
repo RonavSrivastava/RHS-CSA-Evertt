@@ -27,22 +27,33 @@ public class FluidRenderer implements FluidRendererBase {
     public void render(WritableRaster renderTarget, FluidSimulationBase sim) {
         double[][] f = sim.getDensityField();
 
-        for (int i = 0; i < f.length; i++) {
-            for (int j = 0; j < f[i].length; j++) {
-                System.out.println("(" + i + ", " + j + ")");
-                renderTarget.setPixel(i, j, new int[] { 0, (int) Math.min((f[i][j]), 255), 0, 255 });
-            }
-        }
-
         // for (int i = 0; i < f.length; i++) {
         // for (int j = 0; j < f[i].length; j++) {
-        // for (int r = 0; r < 7; r++) {
-        // for (int r2 = 0; r2 < 7; r2++) {
-        // renderTarget.setPixel((i * 7) + r, (j * 7) + r2, new int[] { Math.min((int)
-        // (f[i][j] * 0.01), 255), 0, 0, 255 });
+        // renderTarget.setPixel(i, j, new int[] { 0, (int) Math.min((f[i][j])/10, 255),
+        // 0,
+        // 255 });
         // }
         // }
-        // }
-        // }
+
+        for (int i = 0; i < f.length - 1; i++) {
+            for (int j = 0; j < f[i].length - 1; j++) {
+                for (int r = 0; r < 7; r++) {
+                    for (int r2 = 0; r2 < 7; r2++) {
+                        renderTarget.setPixel((i * 7) + r, (j * 7) + r2, new int[] {
+                                Math.min((int) (lerp(lerp(f[i][j], f[i + 1][j], r / 7.0),
+                                        lerp(f[i][j + 1], f[i + 1][j + 1], r / 7.0), r2 / 7.0) * 0.01), 255),
+                                Math.min((int) (lerp(lerp(f[i][j], f[i + 1][j], r / 7.0),
+                                        lerp(f[i][j + 1], f[i + 1][j + 1], r / 7.0), r2 / 7.0) * 0.01), 255),
+                                Math.min((int) (lerp(lerp(f[i][j], f[i + 1][j], r / 7.0),
+                                        lerp(f[i][j + 1], f[i + 1][j + 1], r / 7.0), r2 / 7.0) * 0.01), 255),
+                                255 });
+                    }
+                }
+            }
+        }
+    }
+
+    public double lerp(double min, double max, double weight) {
+        return (1 - weight) * min + (weight) * max;
     }
 }

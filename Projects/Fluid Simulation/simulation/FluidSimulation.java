@@ -43,42 +43,54 @@ import framework.Vec3;
  */
 public class FluidSimulation extends FluidSimulationBase {
     // consts
-    private final double DENSITY_DAMP_FACTOR    = 0.05;
+    private final double DENSITY_DAMP_FACTOR = 0.01;
     private ArrayList<Vec3> sources = new ArrayList<Vec3>();
     private boolean pressed = false;
-
+    PointerInfo a = MouseInfo.getPointerInfo();
+    PointerInfo prevA = MouseInfo.getPointerInfo();
 
     // input
     public void onKeyPressed(char ch) {
-        if(ch == ' ') {
+        if (ch == ' ') {
 
         }
     }
+
     public void onKeyReleased(char ch) {
     }
+
     public void onMouseButtonPressed(int buttonId) {
-        if(buttonId == 1) {
+        if (buttonId == 1) {
             pressed = true;
         }
     }
+
     public void onMouseButtonReleased(int buttonId) {
-        if(buttonId == 1) {
+        if (buttonId == 1) {
             pressed = false;
         }
     }
 
-    // Update method is called continuously, once per frame, with the amount of time that has 
-    //  passed since the last update. The method is responsible for updating the simulation 
-    //  by updating both the velocity & density fields (this is implemented for you). These 
-    //  methods will call other "setSource..." methods in this class which you should also
-    //  implement to set all the sources/forces that provide the simulation with input.
+    // Update method is called continuously, once per frame, with the amount of time
+    // that has
+    // passed since the last update. The method is responsible for updating the
+    // simulation
+    // by updating both the velocity & density fields (this is implemented for you).
+    // These
+    // methods will call other "setSource..." methods in this class which you should
+    // also
+    // implement to set all the sources/forces that provide the simulation with
+    // input.
     //
-    // This method should also be used to update your user input, which can be driven by 
-    //  a combination of mouse and keyboard input. Events for these are provided above
-    //  and you can also call getMousePosition_simRelative() to get the mouse position.
+    // This method should also be used to update your user input, which can be
+    // driven by
+    // a combination of mouse and keyboard input. Events for these are provided
+    // above
+    // and you can also call getMousePosition_simRelative() to get the mouse
+    // position.
     public void update(double deltaTime) {
         // update the density & velocity fields
-        // updateSources();
+        updateSources();
         updateVelocityField(deltaTime);
         updateDensityField(deltaTime);
 
@@ -88,46 +100,48 @@ public class FluidSimulation extends FluidSimulationBase {
 
     private void updateSources() {
         boolean found = false;
-        PointerInfo a = MouseInfo.getPointerInfo();
-        int x = Math.min((int) a.getLocation().getX() - 465, 1024);
-        int y = Math.min((int) a.getLocation().getY() - 256, 600);
-        System.out.println("(" + x + ", " + y + ")");
-        if(pressed) {
-            for(int i = 0; i < sources.size(); i++) {
-                if(sources.get(i).x == x && sources.get(i).y == y) {
+        a = MouseInfo.getPointerInfo();
+        int x = Math.max(Math.min((int) a.getLocation().getX() - 465, 986), 0);
+        int y = Math.max(Math.min((int) a.getLocation().getY() - 256, 539), 0);
+        x /= 7;
+        y /= 7;
+        if (pressed) {
+            for (int i = 0; i < sources.size(); i++) {
+                if (sources.get(i).x == x && sources.get(i).y == y) {
                     found = true;
-                    sources.get(i).add(new Vec3(x, y, 100));
+                    sources.get(i).add(new Vec3(0, 0, 100000));
                 }
             }
-            if(!found) {
-                sources.add(new Vec3(x, y, 100));
+            if (!found) {
+                sources.add(new Vec3(x, y, 100000));
             }
         }
-        //hehe
+        prevA = a;
+        // hehe
     }
 
     // Set the source/forces field for the dye/smoke in the density field
     public void setSourcesForDensityField(double[][] densField) {
-        if(sources.size() == 0) {
-            sources.add(new Vec3(30, 30, 7500));
+        if (sources.size() > 25) {
+            sources.remove(0);
         }
-        for(int i = 0; i < sources.size(); i++) {
+        for (int i = 0; i < sources.size(); i++) {
             densField[(int) (sources.get(i).x)][(int) (sources.get(i).y)] = sources.get(i).z;
         }
 
         // for(int r = 0; r < densField.length; r++) {
-        //     for(int c = 0; c < densField[r].length; c++) {
-        //         densField[r][c] = r + c;
-        //     }
+        // for(int c = 0; c < densField[r].length; c++) {
+        // densField[r][c] = r + c;
+        // }
         // }
     }
 
     // Set the source/forces field for the velocity field
     public void setSourcesForVelocityField(Vec2[][] velField) {
         Random rand = new Random();
-        for(int r = 0; r < velField.length; r++) {
-            for(int c = 0; c < velField[r].length; c++) {
-                velField[r][c] = new Vec2((rand.nextDouble()-0.5) * 0.1, (rand.nextDouble()-0.5) * 0.1);
+        for (int r = 0; r < velField.length; r++) {
+            for (int c = 0; c < velField[r].length; c++) {
+                velField[r][c] = new Vec2((rand.nextDouble() - 0.49), (rand.nextDouble() - 0.5));
             }
         }
     }
