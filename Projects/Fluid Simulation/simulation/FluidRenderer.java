@@ -41,11 +41,11 @@ public class FluidRenderer implements FluidRendererBase {
                     for (int r2 = 0; r2 < 7; r2++) {
                         renderTarget.setPixel((i * 7) + r, (j * 7) + r2, new int[] {
                                 Math.min((int) (lerp(lerp(f[i][j], f[i + 1][j], r / 7.0),
-                                        lerp(f[i][j + 1], f[i + 1][j + 1], r / 7.0), r2 / 7.0) * 0.01), 255),
+                                        lerp(f[i][j + 1], f[i + 1][j + 1], r / 7.0), r2 / 7.0) * 1), 255),
                                 Math.min((int) (lerp(lerp(f[i][j], f[i + 1][j], r / 7.0),
-                                        lerp(f[i][j + 1], f[i + 1][j + 1], r / 7.0), r2 / 7.0) * 0.01), 255),
+                                        lerp(f[i][j + 1], f[i + 1][j + 1], r / 7.0), r2 / 7.0) * 1), 255),
                                 Math.min((int) (lerp(lerp(f[i][j], f[i + 1][j], r / 7.0),
-                                        lerp(f[i][j + 1], f[i + 1][j + 1], r / 7.0), r2 / 7.0) * 0.01), 255),
+                                        lerp(f[i][j + 1], f[i + 1][j + 1], r / 7.0), r2 / 7.0) * 1), 255),
                                 255 });
                     }
                 }

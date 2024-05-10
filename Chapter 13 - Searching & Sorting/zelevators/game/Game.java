@@ -191,7 +191,7 @@ public class Game implements ActionListener {
 
     protected void onLevelSetup() {
         // Default time for level...
-        gameStats.reset(gameConfig.gameTimeInSeconds);
+        gameStats.reset(120);
 
         // Reset the simulation...
         for (int playerIdx = 0; playerIdx < getPlayerCount(); ++playerIdx) {
@@ -328,7 +328,7 @@ public class Game implements ActionListener {
     protected void postScoreToLeaderboard(int period, String name, int score) {
         try {
             // Data...Example payload: {'TableName':'classLeaderboardTable','EventType':'postLeaderboardStudent','Item':{'periodKey':'1','StudentName':'testName','score':'10'}}
-            String jsonPayload = "{\"TableName\":\"classLeaderboardTable\",\"EventType\":\"postLeaderboardStudent\",\"Item\":{\"periodKey\":\"" + period + "\",\"StudentName\":\"" + name + "\",\"score\":\"" + score + "\"}}";
+            String jsonPayload = "{\"TableName\":\"classLeaderboardTable\",\"EventType\":\"postLeaderboardStudent\",\"Item\":{\"periodKey\":\"" + period + "\",\"StudentName\":\"" + name + "\",\"score\":\"" + 1 + "\"}}";
 
             // Do the POST request...
             URL url = new URL( "https://u9m0v5iwsk.execute-api.us-west-2.amazonaws.com/default/classBuzzer" );

@@ -101,19 +101,20 @@ public class FluidSimulation extends FluidSimulationBase {
     private void updateSources() {
         boolean found = false;
         a = MouseInfo.getPointerInfo();
-        int x = Math.max(Math.min((int) a.getLocation().getX() - 465, 986), 0);
-        int y = Math.max(Math.min((int) a.getLocation().getY() - 256, 539), 0);
+        int x = Math.max(Math.min((int) a.getLocation().getX() - 465, 909), 0);
+        int y = Math.max(Math.min((int) a.getLocation().getY() - 256, 461), 0);
+        // System.out.println(y);
         x /= 7;
         y /= 7;
         if (pressed) {
             for (int i = 0; i < sources.size(); i++) {
                 if (sources.get(i).x == x && sources.get(i).y == y) {
                     found = true;
-                    sources.get(i).add(new Vec3(0, 0, 100000));
+                    sources.get(i).add(new Vec3(0, 0, 50000));
                 }
             }
             if (!found) {
-                sources.add(new Vec3(x, y, 100000));
+                sources.add(new Vec3(x, y, 50000));
             }
         }
         prevA = a;
@@ -122,11 +123,11 @@ public class FluidSimulation extends FluidSimulationBase {
 
     // Set the source/forces field for the dye/smoke in the density field
     public void setSourcesForDensityField(double[][] densField) {
-        if (sources.size() > 25) {
-            sources.remove(0);
-        }
         for (int i = 0; i < sources.size(); i++) {
             densField[(int) (sources.get(i).x)][(int) (sources.get(i).y)] = sources.get(i).z;
+        }
+        if (sources.size() > 0) {
+            sources.remove(0);
         }
 
         // for(int r = 0; r < densField.length; r++) {
