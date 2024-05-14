@@ -2,11 +2,8 @@ package simulation;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.ArrayBlockingQueue;
 
 import java.awt.*;
-
-import javax.lang.model.SourceVersion;
 
 import framework.FluidSimulationBase;
 import framework.Vec2;
@@ -43,11 +40,15 @@ import framework.Vec3;
  */
 public class FluidSimulation extends FluidSimulationBase {
     // consts
-    private final double DENSITY_DAMP_FACTOR = 0.01;
+    private final double DENSITY_DAMP_FACTOR = 0.05;
     private ArrayList<Vec3> sources = new ArrayList<Vec3>();
     private boolean pressed = false;
     PointerInfo a = MouseInfo.getPointerInfo();
     PointerInfo prevA = MouseInfo.getPointerInfo();
+    private boolean first = true;
+    PointerInfo v = MouseInfo.getPointerInfo();
+    PointerInfo prevV = MouseInfo.getPointerInfo();
+    private boolean pressed2 = false;
 
     // input
     public void onKeyPressed(char ch) {
@@ -62,12 +63,16 @@ public class FluidSimulation extends FluidSimulationBase {
     public void onMouseButtonPressed(int buttonId) {
         if (buttonId == 1) {
             pressed = true;
+        } else if (buttonId == 3) {
+            pressed2 = true;
         }
     }
 
     public void onMouseButtonReleased(int buttonId) {
         if (buttonId == 1) {
             pressed = false;
+        }else if (buttonId == 3) {
+            pressed2 = false;
         }
     }
 
@@ -114,7 +119,7 @@ public class FluidSimulation extends FluidSimulationBase {
                 }
             }
             if (!found) {
-                sources.add(new Vec3(x, y, 50000));
+                sources.add(new Vec3(x, y,50000));
             }
         }
         prevA = a;
@@ -123,27 +128,40 @@ public class FluidSimulation extends FluidSimulationBase {
 
     // Set the source/forces field for the dye/smoke in the density field
     public void setSourcesForDensityField(double[][] densField) {
-        for (int i = 0; i < sources.size(); i++) {
-            densField[(int) (sources.get(i).x)][(int) (sources.get(i).y)] = sources.get(i).z;
+        if (first) {
+            for (int r = 0; r < densField.length; r++) {
+                for (int c = 0; c < densField[r].length; c++) {
+                    densField[r][c] = 10 * (r + c + 50);
+                }
+            }
+            first = false;
+        } else {
+            for (int i = 0; i < sources.size(); i++) {
+                densField[(int) (sources.get(i).x)][(int) (sources.get(i).y)] = sources.get(i).z;
+            }
         }
         if (sources.size() > 0) {
-            sources.remove(0);
+            for (int i = 0; i < sources.size(); i++) {
+                sources.remove(0);
+            }
         }
-
-        // for(int r = 0; r < densField.length; r++) {
-        // for(int c = 0; c < densField[r].length; c++) {
-        // densField[r][c] = r + c;
-        // }
-        // }
     }
 
     // Set the source/forces field for the velocity field
     public void setSourcesForVelocityField(Vec2[][] velField) {
+        v = MouseInfo.getPointerInfo();
         Random rand = new Random();
         for (int r = 0; r < velField.length; r++) {
             for (int c = 0; c < velField[r].length; c++) {
-                velField[r][c] = new Vec2((rand.nextDouble() - 0.49), (rand.nextDouble() - 0.5));
+                if (Math.abs(r - (v.getLocation().getX() - 465)/7) < 3 && Math.abs(c - (v.getLocation().getY() - 256)/7) < 3 && pressed2) {
+                    velField[r][c] = new Vec2(
+                            (rand.nextDouble() - 0.5) - (prevV.getLocation().getX() - v.getLocation().getX()),
+                            (rand.nextDouble() - 0.5) - (prevV.getLocation().getY() - v.getLocation().getY()));
+                } else {
+                    velField[r][c] = new Vec2((rand.nextDouble() - 0.5), (rand.nextDouble() - 0.5));
+                }
             }
         }
+        prevV = v;
     }
 }

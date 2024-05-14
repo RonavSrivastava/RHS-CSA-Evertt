@@ -2,6 +2,7 @@ package simulation;
 
 import framework.FluidRendererBase;
 import framework.FluidSimulationBase;
+import framework.Vec3;
 
 import java.awt.image.WritableRaster;
 
@@ -24,6 +25,9 @@ import java.awt.image.WritableRaster;
  *      you have at least some test code adding a source there.
  */
 public class FluidRenderer implements FluidRendererBase {
+    // private Vec3 color = new Vec3(64, 224, 208); // turquoise
+    private Vec3 color = new Vec3(57, 255, 20); //neon green
+
     public void render(WritableRaster renderTarget, FluidSimulationBase sim) {
         double[][] f = sim.getDensityField();
 
@@ -34,18 +38,17 @@ public class FluidRenderer implements FluidRendererBase {
         // 255 });
         // }
         // }
-
         for (int i = 0; i < f.length - 1; i++) {
             for (int j = 0; j < f[i].length - 1; j++) {
                 for (int r = 0; r < 7; r++) {
                     for (int r2 = 0; r2 < 7; r2++) {
                         renderTarget.setPixel((i * 7) + r, (j * 7) + r2, new int[] {
                                 Math.min((int) (lerp(lerp(f[i][j], f[i + 1][j], r / 7.0),
-                                        lerp(f[i][j + 1], f[i + 1][j + 1], r / 7.0), r2 / 7.0) * 1), 255),
+                                        lerp(f[i][j + 1], f[i + 1][j + 1], r / 7.0), r2 / 7.0) * 1), 255) * (int) color.x/255,
                                 Math.min((int) (lerp(lerp(f[i][j], f[i + 1][j], r / 7.0),
-                                        lerp(f[i][j + 1], f[i + 1][j + 1], r / 7.0), r2 / 7.0) * 1), 255),
+                                        lerp(f[i][j + 1], f[i + 1][j + 1], r / 7.0), r2 / 7.0) * 1), 255)  * (int) color.y/255,
                                 Math.min((int) (lerp(lerp(f[i][j], f[i + 1][j], r / 7.0),
-                                        lerp(f[i][j + 1], f[i + 1][j + 1], r / 7.0), r2 / 7.0) * 1), 255),
+                                        lerp(f[i][j + 1], f[i + 1][j + 1], r / 7.0), r2 / 7.0) * 1), 255)  * (int) color.z/255,
                                 255 });
                     }
                 }
