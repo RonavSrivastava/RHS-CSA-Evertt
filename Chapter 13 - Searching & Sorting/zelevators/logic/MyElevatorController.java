@@ -10,7 +10,7 @@ public class MyElevatorController implements ElevatorController {
 
     // Students should implement this function to return their name
     public String getStudentName() {
-        return "potato"; // <-- TODO: Replace with your name
+        return "537K"; // <-- TODO: Replace with your name
     }
 
     public int getStudentPeriod() {
@@ -27,6 +27,9 @@ public class MyElevatorController implements ElevatorController {
     // cleared (reqEnable indicates which).
     public void onElevatorRequestChanged(int floorIdx, Direction dir, boolean reqEnable) {
         System.out.println("onElevatorRequestChanged(" + floorIdx + ", " + dir + ", " + reqEnable + ")");
+        if (game.isElevatorIdle(0) && reqEnable) {
+            gotoFloor(0, floorIdx);
+        }
     }
 
     // Event: "inside-the-elevator" request, requesting to go to a floor.
@@ -47,20 +50,31 @@ public class MyElevatorController implements ElevatorController {
         if (game == null) {
             return;
         }
-        if (game.isElevatorIdle(0)) {
+        int j = 0;
+        int prevJ = Integer.MAX_VALUE;
+        for (int i = 0; i < game.getFloorCount(); i++) {
+            if (game.hasElevatorRequestDown(i) && game.getElevatorFloor(0) > i) {
+                j = i > j ? i : j;
+            } else if (game.hasElevatorRequestUp(i) && game.getElevatorFloor(0) < i) {
+                j = i < j ? i : j;
+            } else if (game.getElevatorFloor(0) < i && game.elevatorHasFloorRequest(0, i)) {
+                j = i > j ? i : j;
+            } else if (game.getElevatorFloor(0) < i && game.elevatorHasFloorRequest(0, i)) {
+                j = i < j ? i : j;
+            }
+        }
+        if (j != 0) {
+            if (!game.isElevatorIsHeadingToFloor(0, j)) {
+                gotoFloor(0, j);
+            }
+        } else {
             for (int i = 0; i < game.getFloorCount(); i++) {
-                if (game.hasElevatorRequestDown(i) && game.getElevatorFloor(0) > i) {
-                    gotoFloor(0, i);
-                } else if (game.hasElevatorRequestUp(i) && game.getElevatorFloor(0) < i) {
-                    gotoFloor(0, i);
+                if ((game.hasElevatorRequestUp(i) || game.hasElevatorRequestDown(i)) && !game.isElevatorIsHeadingToFloor(0, i)) {
+                    j = Math.abs(j - i) < prevJ ? i : j;
                 }
             }
-            if (game.isElevatorIdle(0)) {
-                for (int i = 0; i < game.getFloorCount(); i++) {
-                    if (game.elevatorHasFloorRequest(0, i)) {
-                        gotoFloor(0, i);
-                    }
-                }
+            if (!game.isElevatorIsHeadingToFloor(0, j)) {
+                gotoFloor(0, j);
             }
         }
     }
