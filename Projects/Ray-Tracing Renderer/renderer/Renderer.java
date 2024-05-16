@@ -1,6 +1,7 @@
 package renderer;
 
 import java.awt.image.WritableRaster;
+import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 
 import framework.Camera;
@@ -45,8 +46,16 @@ public class Renderer implements RendererBase {
      */
     public RayCastResult rayCast(World world, Vec3 rayOrigin, Vec3 rayDirUnit) {
         RayCastResult res = null;
-
-        // TODO
+        double min = Double.MAX_VALUE;
+        for(int i = 0; i < World.get().getRenderObjects().size(); i++) {
+            if(World.get().getRenderObjects().get(i).rayCast(rayOrigin, rayDirUnit) == null) {
+                continue;
+            }
+            if(World.get().getRenderObjects().get(i).rayCast(rayOrigin, rayDirUnit).calcDstFromCamera() < min) {
+                min = World.get().getRenderObjects().get(i).rayCast(rayOrigin, rayDirUnit).calcDstFromCamera();
+                res = World.get().getRenderObjects().get(i).rayCast(rayOrigin, rayDirUnit);
+            }
+        }
 
         return res;
     }
@@ -65,13 +74,10 @@ public class Renderer implements RendererBase {
      *  @param  camera is the camera objects that has a position, direction, field of view, etc.
      */
     public void render(WritableRaster renderTarget, World world, Camera camera) {
-
-        // TODO
-
-        // Remove this code - this is just to demonstrate how to write into the renderTarget
+        camera.worldToCameraTrans();
         for (int y = 0; y < renderTarget.getHeight(); y++) {
             for (int x = 0; x < renderTarget.getWidth(); x++) {
-                renderTarget.setPixel(x, y, new int[] { (int)(Math.random() * 150), (int)(Math.random() * 150), (int)(Math.random() * 150), 255 }); // R, G, B, Alpha (0 to 255 values)
+                renderTarget.setPixel(x, y, new int[] { rayCast(world, camera.getPos(), camera.forward().add(new Vec3(x, y, 0))).color.getRed(), rayCast(world, camera.getPos(), camera.forward()).color.getGreen(), rayCast(world, camera.getPos(), camera.forward()).color.getBlue(), 255 }); // R, G, B, Alpha (0 to 255 values)
             }
         }
     }
