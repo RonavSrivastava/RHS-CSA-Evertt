@@ -1,5 +1,7 @@
 package logic;
 
+import java.util.ArrayList;
+
 import game.ElevatorController;
 import game.Game;
 import game.Simulation;
@@ -9,6 +11,8 @@ public class MyElevatorController implements ElevatorController {
     private Game game;
     private int[] counts1;
     private int[] counts2;
+    private ArrayList<Integer> prevReqs;
+    private ArrayList<Integer> curFloors;
 
     // Students should implement this function to return their name
     public String getStudentName() {
@@ -53,7 +57,7 @@ public class MyElevatorController implements ElevatorController {
     // Event: Elevator has arrived at the floor & doors are open.
     public void onElevatorArrivedAtFloor(int elevatorIdx, int floorIdx, Direction travelDirection) {
         System.out.println("onElevatorArrivedAtFloor(" + elevatorIdx + ", " + floorIdx + ", " + travelDirection + ")");
-
+        game.setElevatorTravelDirection(elevatorIdx, Direction.None);
     }
 
     // Event: Called each frame of the simulation (i.e. called continuously)
@@ -62,129 +66,108 @@ public class MyElevatorController implements ElevatorController {
             return;
         }
 
-        int max = 0;
-        for (int i = 0; i < counts1.length; i++) {
-            if (counts1[i] > max && i != game.getElevatorFloor(0) && game.isElevatorIdle(0)) {
-                max = i;
+        prevReqs = new ArrayList<Integer>();
+        curFloors = new ArrayList<Integer>();
+        for (int el = 0; el < game.getElevatorCount(); el++) {
+            int max = 0;
+            for (int i = 0; i < counts1.length && !prevReqs.contains(i) && !curFloors.contains(i); i++) {
+                if (counts1[i] > max && i != game.getElevatorFloor(el) && game.isElevatorIdle(el)) {
+                    max = i;
+                }
             }
-        }
 
-        int max2 = 0;
-        for (int i = 0; i < counts2.length; i++) {
-            if (counts2[i] > max && i != game.getElevatorFloor(0) && game.isElevatorIdle(0)) {
-                max2 = i;
+            int max2 = 0;
+            for (int i = 0; i < counts2.length && !prevReqs.contains(i) && !curFloors.contains(i); i++) {
+                if (counts2[i] > max && i != game.getElevatorFloor(el) && game.isElevatorIdle(el)) {
+                    max2 = i;
+                }
             }
-        }
-        // if (!game.isElevatorIsHeadingToFloor(0, max)) {
-        // gotoFloor(0, max);
-        // }
+            // if (!game.isElevatorIsHeadingToFloor(0, max)) {
+            // gotoFloor(0, max);
+            // }
 
-        int j = -1;
-        for (int i = 0; i < game.getFloorCount(); i++) {
-            // System.out.println(game.getElevatorFloor(0) + " curFloor");
-            if (game.hasElevatorRequestDown(i) && (int) game.getElevatorFloor(0) >= i
-                    && i != (int) game.getElevatorFloor(0)) {
-                j = i > j ? i : j;
-            } else if (game.hasElevatorRequestUp(i) && (int) game.getElevatorFloor(0) <= i
-                    && i != (int) game.getElevatorFloor(0)) {
-                j = i < j ? i : j;
+            int j = -1;
+            for (int i = 0; i < game.getFloorCount() && !prevReqs.contains(i) && !curFloors.contains(i); i++) {
+                // System.out.println(game.getElevatorFloor(0) + " curFloor");
+                if (game.hasElevatorRequestDown(i) && (int) game.getElevatorFloor(el) > i) {
+                    j = i > j ? i : j;
+                } else if (game.hasElevatorRequestUp(i) && (int) game.getElevatorFloor(el) < i) {
+                    j = i < j ? i : j;
+                }
+                if ((int) game.getElevatorFloor(el) < i && game.elevatorHasFloorRequest(el, i)) {
+                    j = i > j ? i : j;
+                } else if ((int) game.getElevatorFloor(el) > i && game.elevatorHasFloorRequest(el, i)) {
+                    j = i < j ? i : j;
+                }
             }
-            if ((int) game.getElevatorFloor(0) <= i && game.elevatorHasFloorRequest(0, i)
-                    && i != (int) game.getElevatorFloor(0)) {
-                j = i > j ? i : j;
-            } else if ((int) game.getElevatorFloor(0) >= i && game.elevatorHasFloorRequest(0, i)
-                    && i != (int) game.getElevatorFloor(0)) {
-                j = i < j ? i : j;
+
+            if (game.getElevatorTravelDirection(el).equals(Direction.Down)) {
+                for(int i = 0; i < game.getElevatorFloor(el) && !prevReqs.contains(i) && !curFloors.contains(i); i++) {
+                    if((game.elevatorHasFloorRequest(el, i) || game.hasElevatorRequestDown(i)) && j < i) {
+                        j = i;
+                    }
+                }
+            } else {
+                for(int i = game.getFloorCount() - 1; i > game.getElevatorFloor(el) && !prevReqs.contains(i) && !curFloors.contains(i); i--) {
+                    if((game.elevatorHasFloorRequest(el, i) || game.hasElevatorRequestUp(i)) && j > i) {
+                        j = i;
+                    }
+                }
             }
-        }
-        if (j != -1) {
-            // System.out.println(j + " j");
-            if (!game.isElevatorIsHeadingToFloor(0, j)) {
+
+            if (j != -1) {
+                // System.out.println(j + " j");
+                if (!game.isElevatorIsHeadingToFloor(el, j) && game.isElevatorIdle(el)) {
+                    // System.out.println("go to " + j);
+                    prevReqs.add(j);
+                    curFloors.add((int) game.getElevatorFloor(el));
+                    if(j > game.getElevatorFloor(el)) {
+                        game.setElevatorTravelDirection(el, Direction.Up);
+                    } else {
+                        game.setElevatorTravelDirection(el, Direction.Down);
+                    }
+                    gotoFloor(el, j);
+                }
+            } else {
+                // System.out.println(j + " j");
+                // System.out.println(max2 + " max2");
+                // System.out.println(max + " max");
+                if (!game.isElevatorIsHeadingToFloor(el, max2) && game.isElevatorIdle(el)) {
+                    // System.out.println("go to " + max2);
+                    prevReqs.add(max2);
+                    curFloors.add((int) game.getElevatorFloor(el));
+                    if(max2 > game.getElevatorFloor(el)) {
+                        game.setElevatorTravelDirection(el, Direction.Up);
+                    } else {
+                        game.setElevatorTravelDirection(el, Direction.Down);
+                    }
+                    gotoFloor(el, max2);
+                } else if (!game.isElevatorIsHeadingToFloor(el, max) && game.isElevatorIdle(el)) {
+                    // System.out.println("go to " + max);
+                    prevReqs.add(max);
+                    curFloors.add((int) game.getElevatorFloor(el));
+                    if(max > game.getElevatorFloor(el)) {
+                        game.setElevatorTravelDirection(el, Direction.Up);
+                    } else {
+                        game.setElevatorTravelDirection(el, Direction.Down);
+                    }
+                    gotoFloor(el, max);
+                }
+                // if (j < game.getElevatorFloor(0)) {
+                // game.setElevatorTravelDirection(0, Direction.Down);
+                // } else {
+                // game.setElevatorTravelDirection(0, Direction.Up);
+                // }
+                // for (int i = 0; i < game.getFloorCount(); i++) {
+                // if ((game.hasElevatorRequestUp(i) || game.hasElevatorRequestDown(i))) {
+                // j = Math.abs(j - i) < prevJ ? i : j;
+                // }
+                // }
+                // if (!game.isElevatorIsHeadingToFloor(0, j)) {
                 // System.out.println("go to " + j);
-                gotoFloor(0, j);
+                // gotoFloor(0, j);
+                // }
             }
-        } else {
-            // System.out.println(j + " j");
-            // System.out.println(max2 + " max2");
-            // System.out.println(max + " max");
-            if (!game.isElevatorIsHeadingToFloor(0, max2) && game.isElevatorIdle(0)) {
-                // System.out.println("go to " + max2);
-                gotoFloor(0, max2);
-            } else if (!game.isElevatorIsHeadingToFloor(0, max) && game.isElevatorIdle(0)) {
-                // System.out.println("go to " + max);
-                gotoFloor(0, max);
-            }
-            // if (j < game.getElevatorFloor(0)) {
-            // game.setElevatorTravelDirection(0, Direction.Down);
-            // } else {
-            // game.setElevatorTravelDirection(0, Direction.Up);
-            // }
-            // for (int i = 0; i < game.getFloorCount(); i++) {
-            // if ((game.hasElevatorRequestUp(i) || game.hasElevatorRequestDown(i))) {
-            // j = Math.abs(j - i) < prevJ ? i : j;
-            // }
-            // }
-            // if (!game.isElevatorIsHeadingToFloor(0, j)) {
-            // System.out.println("go to " + j);
-            // gotoFloor(0, j);
-            // }
-        }
-
-
-
-
-
-        
-        int prevJ = j;
-        j = -1;
-        for (int i = 0; i < game.getFloorCount(); i++) {
-            // System.out.println(game.getElevatorFloor(0) + " curFloor");
-            if (game.hasElevatorRequestDown(i) && (int) game.getElevatorFloor(1) >= i
-                    && i != (int) game.getElevatorFloor(1) && i != prevJ) {
-                j = i > j ? i : j;
-            } else if (game.hasElevatorRequestUp(i) && (int) game.getElevatorFloor(1) <= i
-                    && i != (int) game.getElevatorFloor(1) && i != prevJ) {
-                j = i < j ? i : j;
-            }
-            if ((int) game.getElevatorFloor(1) <= i && game.elevatorHasFloorRequest(1, i)
-                    && i != (int) game.getElevatorFloor(1) && i != prevJ) {
-                j = i > j ? i : j;
-            } else if ((int) game.getElevatorFloor(1) >= i && game.elevatorHasFloorRequest(1, i)
-                    && i != (int) game.getElevatorFloor(1) && i != prevJ) {
-                j = i < j ? i : j;
-            }
-        }
-        if (j != -1) {
-            System.out.println(j + " j");
-            if (!game.isElevatorIsHeadingToFloor(1, j)) {
-                // System.out.println("go to " + j);
-                gotoFloor(1, j);
-            }
-        } else {
-            // System.out.println(j + " j");
-            System.out.println(max2 + " max2");
-            System.out.println(max + " max");
-            if (!game.isElevatorIsHeadingToFloor(1, max2) && game.isElevatorIdle(1)) {
-                // System.out.println("go to " + max2);
-                gotoFloor(1, max2);
-            } else if (!game.isElevatorIsHeadingToFloor(1, max) && game.isElevatorIdle(1)) {
-                // System.out.println("go to " + max);
-                gotoFloor(1, max);
-            }
-            // if (j < game.getElevatorFloor(0)) {
-            // game.setElevatorTravelDirection(0, Direction.Down);
-            // } else {
-            // game.setElevatorTravelDirection(0, Direction.Up);
-            // }
-            // for (int i = 0; i < game.getFloorCount(); i++) {
-            // if ((game.hasElevatorRequestUp(i) || game.hasElevatorRequestDown(i))) {
-            // j = Math.abs(j - i) < prevJ ? i : j;
-            // }
-            // }
-            // if (!game.isElevatorIsHeadingToFloor(0, j)) {
-            // System.out.println("go to " + j);
-            // gotoFloor(0, j);
-            // }
         }
     }
 }
