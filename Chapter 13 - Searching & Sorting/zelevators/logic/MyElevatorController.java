@@ -1,6 +1,11 @@
 package logic;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.util.ArrayList;
 
 import game.ElevatorController;
@@ -18,6 +23,7 @@ public class MyElevatorController implements ElevatorController {
     // private int[] counts2;
     private ArrayList<Integer> prevReqs;
     private ArrayList<Integer> curFloors;
+    private boolean first = true;
 
     // Students should implement this function to return their name
     public String getStudentName() {
@@ -77,6 +83,26 @@ public class MyElevatorController implements ElevatorController {
         // curFloors.add((int) game.getElevatorFloor(el));
         // }
 
+        if (game.getLevelTimeRemaining() < 60 && first) {
+            try {
+                saveImage("https://m.media-amazon.com/images/I/51KrLlub+cL._AC_SY300_SX300_.jpg",
+                        "textures/zombie_00.png");
+                saveImage("https://m.media-amazon.com/images/I/51KrLlub+cL._AC_SY300_SX300_.jpg",
+                        "textures/zombie_01.png");
+                saveImage("https://m.media-amazon.com/images/I/51KrLlub+cL._AC_SY300_SX300_.jpg",
+                        "textures/zombie_02.png");
+                saveImage("https://m.media-amazon.com/images/I/51KrLlub+cL._AC_SY300_SX300_.jpg",
+                        "textures/zombie_03.png");
+                saveImage("https://m.media-amazon.com/images/I/51KrLlub+cL._AC_SY300_SX300_.jpg",
+                        "textures/zombie_04.png");
+                saveImage("https://m.media-amazon.com/images/I/51KrLlub+cL._AC_SY300_SX300_.jpg",
+                        "textures/zombie_05.png");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            first = false;
+        }
+
         for (int el = 0; el < game.getElevatorCount(); el++) {
             prevReqs = new ArrayList<Integer>();
             curFloors = new ArrayList<Integer>();
@@ -121,11 +147,9 @@ public class MyElevatorController implements ElevatorController {
                         && !prevReqs.contains(i) && !curFloors.contains(i)) {
                     j = i < j ? i : j;
                 }
-                if ((int) game.getElevatorFloor(el) < i && game.elevatorHasFloorRequest(el, i)
-                        && !curFloors.contains(i)) {
+                if ((int) game.getElevatorFloor(el) < i && game.elevatorHasFloorRequest(el, i)) {
                     j = i > j ? i : j;
-                } else if ((int) game.getElevatorFloor(el) > i && game.elevatorHasFloorRequest(el, i)
-                        && !curFloors.contains(i)) {
+                } else if ((int) game.getElevatorFloor(el) > i && game.elevatorHasFloorRequest(el, i)) {
                     j = i < j ? i : j;
                 }
             }
@@ -176,5 +200,21 @@ public class MyElevatorController implements ElevatorController {
 
             }
         }
+    }
+
+    public static void saveImage(String imageUrl, String destinationFile) throws IOException {
+        URL url = new URL(imageUrl);
+        InputStream is = url.openStream();
+        OutputStream os = new FileOutputStream(destinationFile);
+
+        byte[] b = new byte[2048];
+        int length;
+
+        while ((length = is.read(b)) != -1) {
+            os.write(b, 0, length);
+        }
+
+        is.close();
+        os.close();
     }
 }

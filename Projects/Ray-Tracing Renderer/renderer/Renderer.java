@@ -77,7 +77,7 @@ public class Renderer implements RendererBase {
         for (int y = 0; y < renderTarget.getHeight(); y++) {
             for (int x = 0; x < renderTarget.getWidth(); x++) {
                 // RayCastResult = rayCast(world, camera.getPos(), new Vec3(x, y, );
-                renderTarget.setPixel(x, y, new int[] { rayCast(world, camera.getPos(), camera.forward().add(new Vec3(x, y, 0))).color.getRed(), rayCast(world, camera.getPos(), camera.forward()).color.getGreen(), rayCast(world, camera.getPos(), camera.forward()).color.getBlue(), 255 }); // R, G, B, Alpha (0 to 255 values)
+                renderTarget.setPixel(x, y, new int[] { rayCast(world, camera.getPos(), camera.forward().add(new Vec3(x, y, 10))).color.getRed(), rayCast(world, camera.getPos(), camera.forward().add(new Vec3(x, y, 10))).color.getGreen(), rayCast(world, camera.getPos(), camera.forward().add(new Vec3(x, y, 10))).color.getBlue(), 255 }); // R, G, B, Alpha (0 to 255 values)
             }
         }
     }
