@@ -1,5 +1,12 @@
 package app;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.JTextField;
+
 import framework.CameraBase;
 import framework.WorldBase;
 import math.Mat3x3;
@@ -31,18 +38,54 @@ public class Camera extends CameraBase {
     // consts
 
     // data
+    Vec3 vel = new Vec3(0, 0, 0);
+    Vec3 accel = new Vec3(0, 0, 0);
+    double speed = 5;
+    JTextField textField = new JTextField();
 
     // constructor(s)
     public Camera(Vec3 pos, Vec3 forward) {
         super(pos, forward);
+        KeyListener j = new KeyListener() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // Handle the key press event
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+                // Handle the key release event
+            }
+        }
+        textField.addKeyListener(j);
     }
 
     // methods
     private void updateMotion(double deltaTime) {
         // World access
         WorldBase world = WorldBase.get();
-
-        // TODO
+        if(isArrowKeyPressed_Left()) {
+            accel.add(new Vec3(speed, 0, 0));
+        }
+        if(isArrowKeyPressed_Right()) {
+            accel.subtract(new Vec3(speed, 0, 0));
+        }
+        if(isArrowKeyPressed_Down()) {
+            accel.add(new Vec3(0, 0, speed));
+        }
+        if(isArrowKeyPressed_Up()) {
+            accel.subtract(new Vec3(0, 0, speed));
+        }
+        if(isKeyPressed(KeyEvent.VK_W)) {
+            System.out.println("what");
+            accel.add(new Vec3(0, speed, 0));
+        }
+        if(isKeyPressed(KeyEvent.SHIFT_DOWN_MASK)) {
+            System.out.println("what2");
+            accel.subtract(new Vec3(0, speed, 0));
+        }
+        vel.add(accel);
+        accel.multiply(0.95);
+        setPos(getPos().add(vel.multiply(deltaTime)));
     }
     private void updateLookDirection(double deltaTime) {
         // TODO
