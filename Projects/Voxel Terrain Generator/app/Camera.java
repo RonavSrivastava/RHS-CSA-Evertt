@@ -1,15 +1,9 @@
 package app;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.swing.JTextField;
-
 import framework.CameraBase;
 import framework.WorldBase;
 import math.Mat3x3;
+import math.Mat4x4;
 import math.Vec2;
 import math.Vec3;
 
@@ -41,22 +35,11 @@ public class Camera extends CameraBase {
     Vec3 vel = new Vec3(0, 0, 0);
     Vec3 accel = new Vec3(0, 0, 0);
     double speed = 5;
-    JTextField textField = new JTextField();
+    Vec2 oldPos = getMouseCursorPos();
 
     // constructor(s)
     public Camera(Vec3 pos, Vec3 forward) {
         super(pos, forward);
-        KeyListener j = new KeyListener() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                // Handle the key press event
-            }
-            @Override
-            public void keyReleased(KeyEvent e) {
-                // Handle the key release event
-            }
-        }
-        textField.addKeyListener(j);
     }
 
     // methods
@@ -64,31 +47,33 @@ public class Camera extends CameraBase {
         // World access
         WorldBase world = WorldBase.get();
         if(isArrowKeyPressed_Left()) {
-            accel.add(new Vec3(speed, 0, 0));
+            accel.subtract(up().cross(getLookDir()));
         }
         if(isArrowKeyPressed_Right()) {
-            accel.subtract(new Vec3(speed, 0, 0));
+            accel.add(up().cross(getLookDir()));
         }
         if(isArrowKeyPressed_Down()) {
-            accel.add(new Vec3(0, 0, speed));
+            accel.subtract(forward());
         }
         if(isArrowKeyPressed_Up()) {
-            accel.subtract(new Vec3(0, 0, speed));
+            accel.add(forward());
         }
-        if(isKeyPressed(KeyEvent.VK_W)) {
-            System.out.println("what");
-            accel.add(new Vec3(0, speed, 0));
-        }
-        if(isKeyPressed(KeyEvent.SHIFT_DOWN_MASK)) {
-            System.out.println("what2");
-            accel.subtract(new Vec3(0, speed, 0));
-        }
+        accel.add(new Vec3(0, -0.9, 0));
         vel.add(accel);
         accel.multiply(0.95);
         setPos(getPos().add(vel.multiply(deltaTime)));
+        if(world.findHeightAtPosXZ((int) getPos().x, (int) getPos().z) + 2 > getPos().y) {
+            accel.y = 0;
+            setPos(new Vec3(getPos().x, world.findHeightAtPosXZ((int) getPos().x, (int) getPos().z) + 2, getPos().z));
+        }
     }
     private void updateLookDirection(double deltaTime) {
-        // TODO
+        Vec2 newPos = getMouseCursorPos();
+        Mat3x3 matX = Mat3x3.transRotAxis(right(), deltaTime * speed * (newPos.y - oldPos.y));
+        Mat3x3 matY = Mat3x3.transRotY(deltaTime * speed * (newPos.x - oldPos.x));
+        setLookDir(matY.transform(matX.transform(getLookDir())).normalize());
+        setUpDir(matY.transform(matX.transform(up()).normalize()));
+        oldPos = newPos;
     }
     public void update(double deltaTime) {
         updateMotion(deltaTime);
