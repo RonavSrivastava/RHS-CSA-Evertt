@@ -41,32 +41,55 @@ public class Practice {
      * createFibonacciArray(4, 3) -> null
      */
     public int[] createFibonacciArray(int first, int seqCount) {
-        ArrayList<Integer> seq = new ArrayList<Integer>();
-        seq.add(1);
-        while (seq.get(seq.size() - 1) != first) {
-            if (seq.size() == 1) {
-                seq.add(1);
-            } else {
-                seq.add(seq.get(seq.size() - 1) + seq.get(seq.size() - 2));
-                if (seq.get(seq.size() - 1) > first) {
-                    return null;
-                }
-            }
-        }
-        for (int i = 0; i < seqCount - 1; i++) {
-            if (seq.size() == 1) {
-                seq.add(1);
-            } else {
-                seq.add(seq.get(seq.size() - 1) + seq.get(seq.size() - 2));
-            }
-        }
-        while (seq.get(0) != first) {
-            seq.remove(0);
-        }
         int[] arr = new int[seqCount];
+        int a = 0;
+        int b = 1;
+        while (a != first) {
+            if (a > first) {
+                return null;
+            }
+            int temp = b;
+            b = a + b;
+            a = temp;
+        }
         for (int i = 0; i < seqCount; i++) {
-            arr[i] = seq.get(i);
+            if (i > 1) {
+                arr[i] = arr[i - 1] + arr[i - 2];
+            } else if (i == 0) {
+                arr[i] = a;
+            } else if (i == 1) {
+                arr[i] = b;
+            }
         }
         return arr;
+
+        // ArrayList<Integer> seq = new ArrayList<Integer>();
+        // seq.add(0);
+        // seq.add(1);
+        // while (seq.get(seq.size() - 1) != first) {
+        // if (seq.size() == 1) {
+        // seq.add(1);
+        // } else {
+        // seq.add(seq.get(seq.size() - 1) + seq.get(seq.size() - 2));
+        // if (seq.get(seq.size() - 1) > first) {
+        // return null;
+        // }
+        // }
+        // }
+        // for (int i = 0; i < seqCount - 1; i++) {
+        // if (seq.size() == 1) {
+        // seq.add(1);
+        // } else {
+        // seq.add(seq.get(seq.size() - 1) + seq.get(seq.size() - 2));
+        // }
+        // }
+        // while (seq.get(0) != first) {
+        // seq.remove(0);
+        // }
+        // int[] arr = new int[seqCount];
+        // for (int i = 0; i < seqCount; i++) {
+        // arr[i] = seq.get(i);
+        // }
+        // return arr;
     }
 }
